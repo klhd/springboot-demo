@@ -3,11 +3,29 @@
 <head>
 	<meta charset="UTF-8">
 	<title>spring boot index</title>
-	<script src="js/axios/axios.min.js"></script>
-	<script src="js/axios/es6-promise.auto.min.js"></script>
-	<script src="public/js/jquery-1.7.1.min.js"></script>
+	<script src="axios/axios.min.js"></script>
+	<script src="axios/es6-promise.auto.min.js"></script>
+	<script src="js/jquery-1.7.1.min.js"></script>
 </head>
 <body>
 Hello, welcome to my spring Boot!!!
+<div>
+	<button onclick="login()">登录</button>
+	<a href="/swagger-ui.html">swagger-ui.html</a>
+</div>
+<script>
+    function login() {
+        doLogin(function (response) {
+            alert('登录成功')
+        });
+    }
+    function doLogin(callback) {
+        axios.post('/user/login', {
+            username: '123466',
+            password: '1212'
+        }).then(callback);
+    }
+    doLogin();
+</script>
 </body>
 </html>

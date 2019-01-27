@@ -1,5 +1,6 @@
 package com.klhd.psi.services;
 
+import com.google.common.collect.Maps;
 import com.klhd.psi.annotation.Cache;
 import com.klhd.psi.annotation.ControllerPermission;
 import com.klhd.psi.annotation.Permission;
@@ -9,19 +10,22 @@ import com.klhd.psi.config.redis.RedisUtil;
 import com.klhd.psi.dao.*;
 import com.klhd.psi.vo.ResultVO;
 import com.klhd.psi.vo.menu.Menu;
-import com.klhd.psi.vo.menu.MenuQuery;
+import com.klhd.psi.vo.privilege.PrivilegeVO;
 import com.klhd.psi.vo.user.UserVO;
 import com.klhd.psi.vo.user.UserVOQuery;
+import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +35,8 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/user")
-@ControllerPermission(code="aaa", desc="用户管理")
+@Api(description = "用户管理")
+@ControllerPermission(code="user", desc="用户管理")
 public class UserService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
@@ -53,46 +58,51 @@ public class UserService {
     @Autowired
     private UserDao userDao;
     @Autowired
+    private UserExtendDao userExtendDao;
+    @Autowired
     private UserDeptDao userDeptDao;
     @Autowired
     private UserJobDao userJobDao;
     @Autowired
     private UserRoleDao userRoleDao;
 
-    @RequestMapping("/login")
+    @ApiOperation("用户登录")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "用户登录成功"),
+    })
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType="query",name="username",dataType="String",required=true,value="用户的姓名",defaultValue=""),
+            @ApiImplicitParam(paramType="query",name="password",dataType="String",required=true,value="用户的密码",defaultValue="")
+    })
     @Permission(code="login", desc="用户登录")
     @Cache(key = "user_key", expire = 11111)
-    public ResultVO login(HttpServletRequest request, HttpServletResponse response, @RequestParam Map<String, String> map) throws Exception {
+    public ResultVO login(@RequestParam Map<String, String> map) throws Exception {
         ResultVO resultVO = ResultVO.getInstance();
-        UserVO userVO = new UserVO();
-        userVO.setAddress("2323");
-        userVO.setUserAccount("232332");
-
-        Menu menu = new Menu();
-        menu.setName("aaaa");
-//        menuDao.insert(menu);
-        List<Menu> menus = menuDao.selectByExample(new MenuQuery());
-        MenuQuery menuQuery = new MenuQuery();
-        menuQuery.createCriteria().andNameLike("%a%");
-        List<Menu> menus2 = menuDao.selectByExample(menuQuery);
-        logger.info("menu", menus);
-        resultVO.setResult(menus2);
 
         UserVOQuery userQuery = new UserVOQuery();
         userQuery.createCriteria().andIdEqualTo(1);
-        List<UserVO> userVOS = userDao.selectByExample(userQuery);
-        System.out.println(TokenUtil.createToken());
+        List<UserVO> list = userDao.selectByExample(userQuery);
+        UserVO user = null;
+        if (list != null && list.size() > 0) {
+            user = list.get(0);
+        }else{
+            //用户名或者密码不对
+        }
+
         String token = TokenUtil.createToken();
         RedisUtil.setValue(token, "-");
         Cookie cookie = new Cookie("sso_id", token);
         cookie.setPath("/");
+        HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
         response.addCookie(cookie);
 
-        Cookie[] cookies = request.getCookies();
-        for(Cookie c: cookies){
-            System.out.println(c.getName());
-            System.out.println(c.getValue());
-        }
+        //获取用户角色
+        //获取用户权限
+        List<PrivilegeVO> userPrivList = userExtendDao.getUserPrivList(user.getId());
+        //获取用户菜单
+        List<Menu> userMenuList = userExtendDao.getUserMenuList(user.getId());
+
 
 //        userVODao.insert(userVO);
 
@@ -103,9 +113,17 @@ public class UserService {
 //        redisUtil.set("test", "value", 1000);
 //        resultVO.setResult(redisUtil.get("test"));
         baseUserService.getCurrentUser();
+        Map<String, Object> data = Maps.newHashMap();
+        user.setPassword(null);
+        data.put("userInfo", user);
+        data.put("menu", userMenuList);
+        data.put("permission", userPrivList);
+        data.put("token", token);
+        resultVO.setResult(data);
         return resultVO;
     }
-    @RequestMapping("/login1")
+
+    @RequestMapping(value = "/login1", method = RequestMethod.POST)
     @Permission(desc = "用户a", code = "user1")
     public void a(){
         logger.info("2222222222222222");

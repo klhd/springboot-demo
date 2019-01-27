@@ -487,6 +487,76 @@ public class PrivilegeVOQuery {
             return (Criteria) this;
         }
 
+        public Criteria andPrivilegeCodeIsNull() {
+            addCriterion("privilege_code is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrivilegeCodeIsNotNull() {
+            addCriterion("privilege_code is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrivilegeCodeEqualTo(String value) {
+            addCriterion("privilege_code =", value, "privilegeCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrivilegeCodeNotEqualTo(String value) {
+            addCriterion("privilege_code <>", value, "privilegeCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrivilegeCodeGreaterThan(String value) {
+            addCriterion("privilege_code >", value, "privilegeCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrivilegeCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("privilege_code >=", value, "privilegeCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrivilegeCodeLessThan(String value) {
+            addCriterion("privilege_code <", value, "privilegeCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrivilegeCodeLessThanOrEqualTo(String value) {
+            addCriterion("privilege_code <=", value, "privilegeCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrivilegeCodeLike(String value) {
+            addCriterion("privilege_code like", value, "privilegeCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrivilegeCodeNotLike(String value) {
+            addCriterion("privilege_code not like", value, "privilegeCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrivilegeCodeIn(List<String> values) {
+            addCriterion("privilege_code in", values, "privilegeCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrivilegeCodeNotIn(List<String> values) {
+            addCriterion("privilege_code not in", values, "privilegeCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrivilegeCodeBetween(String value1, String value2) {
+            addCriterion("privilege_code between", value1, value2, "privilegeCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrivilegeCodeNotBetween(String value1, String value2) {
+            addCriterion("privilege_code not between", value1, value2, "privilegeCode");
+            return (Criteria) this;
+        }
+
         public Criteria andLastUpdateDateIsNull() {
             addCriterion("last_update_date is null");
             return (Criteria) this;

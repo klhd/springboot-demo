@@ -5,6 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="open_type" jdbcType="VARCHAR" property="openType" />
     <result column="privilege_code" jdbcType="VARCHAR" property="privilegeCode" />
     <result column="parent_id" jdbcType="INTEGER" property="parentId" />
     <result column="last_update_date" jdbcType="TIMESTAMP" property="lastUpdateDate" />
@@ -69,7 +70,7 @@
   </sql>
   <sql id="Base_Column_List">
     <if test="fields == null">
-      id, name, url, privilege_code, parent_id, last_update_date
+      id, name, url, open_type, privilege_code, parent_id, last_update_date
     </if>
     <if test="fields != null">
       ${fields}
@@ -94,12 +95,12 @@
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
-    id,name,url,privilege_code,parent_id,last_update_date
+    id,name,url,open_type,privilege_code,parent_id,last_update_date
     from t_menu
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from menu
+    delete from t_menu
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.klhd.psi.vo.menu.MenuQuery">
@@ -109,15 +110,15 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.klhd.psi.vo.menu.Menu">
-    insert into menu (id, name, url, 
-      privilege_code, parent_id, last_update_date
-      )
+    insert into t_menu (id, name, url, 
+      open_type, privilege_code, parent_id, 
+      last_update_date)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
-      #{privilegeCode,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, #{lastUpdateDate,jdbcType=TIMESTAMP}
-      )
+      #{openType,jdbcType=VARCHAR}, #{privilegeCode,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, 
+      #{lastUpdateDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.klhd.psi.vo.menu.Menu">
-    insert into menu
+    insert into t_menu
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -127,6 +128,9 @@
       </if>
       <if test="url != null">
         url,
+      </if>
+      <if test="openType != null">
+        open_type,
       </if>
       <if test="privilegeCode != null">
         privilege_code,
@@ -147,6 +151,9 @@
       </if>
       <if test="url != null">
         #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="openType != null">
+        #{openType,jdbcType=VARCHAR},
       </if>
       <if test="privilegeCode != null">
         #{privilegeCode,jdbcType=VARCHAR},
@@ -177,6 +184,9 @@
       <if test="record.url != null">
         url = #{record.url,jdbcType=VARCHAR},
       </if>
+      <if test="record.openType != null">
+        open_type = #{record.openType,jdbcType=VARCHAR},
+      </if>
       <if test="record.privilegeCode != null">
         privilege_code = #{record.privilegeCode,jdbcType=VARCHAR},
       </if>
@@ -196,6 +206,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       url = #{record.url,jdbcType=VARCHAR},
+      open_type = #{record.openType,jdbcType=VARCHAR},
       privilege_code = #{record.privilegeCode,jdbcType=VARCHAR},
       parent_id = #{record.parentId,jdbcType=INTEGER},
       last_update_date = #{record.lastUpdateDate,jdbcType=TIMESTAMP}
@@ -204,13 +215,16 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.klhd.psi.vo.menu.Menu">
-    update menu
+    update t_menu
     <set>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="url != null">
         url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="openType != null">
+        open_type = #{openType,jdbcType=VARCHAR},
       </if>
       <if test="privilegeCode != null">
         privilege_code = #{privilegeCode,jdbcType=VARCHAR},
@@ -225,9 +239,10 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.klhd.psi.vo.menu.Menu">
-    update menu
+    update t_menu
     set name = #{name,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
+      open_type = #{openType,jdbcType=VARCHAR},
       privilege_code = #{privilegeCode,jdbcType=VARCHAR},
       parent_id = #{parentId,jdbcType=INTEGER},
       last_update_date = #{lastUpdateDate,jdbcType=TIMESTAMP}

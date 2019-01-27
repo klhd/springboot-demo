@@ -10,6 +10,8 @@ public class Menu implements Serializable {
 
     private String url;
 
+    private String openType;
+
     private String privilegeCode;
 
     private Integer parentId;
@@ -40,6 +42,14 @@ public class Menu implements Serializable {
 
     public void setUrl(String url) {
         this.url = url == null ? null : url.trim();
+    }
+
+    public String getOpenType() {
+        return openType;
+    }
+
+    public void setOpenType(String openType) {
+        this.openType = openType == null ? null : openType.trim();
     }
 
     public String getPrivilegeCode() {
@@ -75,6 +85,7 @@ public class Menu implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", name=").append(name);
         sb.append(", url=").append(url);
+        sb.append(", openType=").append(openType);
         sb.append(", privilegeCode=").append(privilegeCode);
         sb.append(", parentId=").append(parentId);
         sb.append(", lastUpdateDate=").append(lastUpdateDate);

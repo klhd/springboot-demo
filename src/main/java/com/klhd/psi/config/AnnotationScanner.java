@@ -88,6 +88,7 @@ public class AnnotationScanner implements ApplicationListener<ApplicationReadyEv
                         p.setTypeCode(annotation.code());
                         p.setMethodDesc(permission.desc());
                         p.setMethodCode(permission.code());
+                        p.setPrivilegeCode(pcode);
                         privilegeDao.insert(p);
                         add ++;
                     }

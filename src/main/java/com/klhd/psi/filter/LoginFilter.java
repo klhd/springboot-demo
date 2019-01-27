@@ -42,7 +42,7 @@ public class LoginFilter implements Filter {
 //        System.out.println(getClientIpAddress(httpServletRequest));
 //        System.out.println(getClientIpAddr(httpServletRequest));
 //        System.out.println(getIpAddr(httpServletRequest));
-        if(whiteList.indexOf(httpServletRequest.getRequestURI()) != -1){
+        if(whiteList.indexOf(httpServletRequest.getRequestURI()) != -1 || httpServletRequest.getRequestURI().endsWith(".js")){
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }
@@ -64,13 +64,17 @@ public class LoginFilter implements Filter {
             }
             //有效，token续期后继续执行，直接return true;
         }
-        ResultVO res = new ResultVO();
-        res.setCode(401);
-        res.setMessage("您没有登录，请登录后操作。");
-        httpServletResponse.setStatus(200);
-        httpServletResponse.setContentType("application/x-javascript;charset=UTF-8");
-        httpServletResponse.getWriter().write(JSON.toJSONString(res));
-        httpServletResponse.getWriter().flush();
+        if(httpServletRequest.getHeader("accept").indexOf("text/html") != -1){
+            httpServletResponse.sendRedirect("/");
+        }else {
+            ResultVO res = new ResultVO();
+            res.setCode(401);
+            res.setMessage("您没有登录，请登录后操作。");
+            httpServletResponse.setStatus(200);
+            httpServletResponse.setContentType("application/x-javascript;charset=UTF-8");
+            httpServletResponse.getWriter().write(JSON.toJSONString(res));
+            httpServletResponse.getWriter().flush();
+        }
     }
 
     @Override

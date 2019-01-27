@@ -16,6 +16,10 @@ public class UserVO implements Serializable {
      */
     private String password;
 
+    private String userName;
+
+    private String email;
+
     /**
      * 联系电话
      */
@@ -87,6 +91,22 @@ public class UserVO implements Serializable {
 
     public void setPassword(String password) {
         this.password = password == null ? null : password.trim();
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName == null ? null : userName.trim();
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email == null ? null : email.trim();
     }
 
     public String getTelNum() {
@@ -178,6 +198,8 @@ public class UserVO implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", userAccount=").append(userAccount);
         sb.append(", password=").append(password);
+        sb.append(", userName=").append(userName);
+        sb.append(", email=").append(email);
         sb.append(", telNum=").append(telNum);
         sb.append(", deptId=").append(deptId);
         sb.append(", jobId=").append(jobId);

@@ -14,6 +14,8 @@ public class PrivilegeVO implements Serializable {
 
     private String methodDesc;
 
+    private String privilegeCode;
+
     private Date lastUpdateDate;
 
     private static final long serialVersionUID = 1L;
@@ -58,6 +60,14 @@ public class PrivilegeVO implements Serializable {
         this.methodDesc = methodDesc == null ? null : methodDesc.trim();
     }
 
+    public String getPrivilegeCode() {
+        return privilegeCode;
+    }
+
+    public void setPrivilegeCode(String privilegeCode) {
+        this.privilegeCode = privilegeCode == null ? null : privilegeCode.trim();
+    }
+
     public Date getLastUpdateDate() {
         return lastUpdateDate;
     }
@@ -77,12 +87,10 @@ public class PrivilegeVO implements Serializable {
         sb.append(", typeDesc=").append(typeDesc);
         sb.append(", methodCode=").append(methodCode);
         sb.append(", methodDesc=").append(methodDesc);
+        sb.append(", privilegeCode=").append(privilegeCode);
         sb.append(", lastUpdateDate=").append(lastUpdateDate);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
-    }
-    public String getPrivilegeCode(){
-        return this.typeCode + "$" + this.methodCode;
     }
 }

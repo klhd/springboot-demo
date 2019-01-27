@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.klhd.psi.dao.RolePrivilegeVODao">
-  <resultMap id="BaseResultMap" type="com.klhd.psi.vo.role.RolePrivilegeVO">
+<mapper namespace="com.klhd.psi.dao.PrivilegeDao">
+  <resultMap id="BaseResultMap" type="com.klhd.psi.vo.privilege.PrivilegeVO">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="type_code" jdbcType="VARCHAR" property="typeCode" />
+    <result column="type_desc" jdbcType="VARCHAR" property="typeDesc" />
+    <result column="method_code" jdbcType="VARCHAR" property="methodCode" />
+    <result column="method_desc" jdbcType="VARCHAR" property="methodDesc" />
     <result column="privilege_code" jdbcType="VARCHAR" property="privilegeCode" />
     <result column="last_update_date" jdbcType="TIMESTAMP" property="lastUpdateDate" />
   </resultMap>
@@ -67,19 +70,19 @@
   </sql>
   <sql id="Base_Column_List">
     <if test="fields == null">
-      id, role_id, privilege_code, last_update_date
+      id, type_code, type_desc, method_code, method_desc, privilege_code, last_update_date
     </if>
     <if test="fields != null">
       ${fields}
     </if>
   </sql>
-  <select id="selectByExample" parameterType="com.klhd.psi.vo.role.RolePrivilegeVOQuery" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.klhd.psi.vo.privilege.PrivilegeVOQuery" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from t_role_privilege
+    from t_privilege
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -92,34 +95,45 @@
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
-    id,role_id,privilege_code,last_update_date
-    from t_role_privilege
+    id,type_code,type_desc,method_code,method_desc,privilege_code,last_update_date
+    from t_privilege
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from role_privilege
+    delete from t_privilege
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.klhd.psi.vo.role.RolePrivilegeVOQuery">
-    delete from t_role_privilege
+  <delete id="deleteByExample" parameterType="com.klhd.psi.vo.privilege.PrivilegeVOQuery">
+    delete from t_privilege
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.klhd.psi.vo.role.RolePrivilegeVO">
-    insert into role_privilege (id, role_id, privilege_code, 
+  <insert id="insert" parameterType="com.klhd.psi.vo.privilege.PrivilegeVO">
+    insert into t_privilege (id, type_code, type_desc, 
+      method_code, method_desc, privilege_code, 
       last_update_date)
-    values (#{id,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, #{privilegeCode,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{typeCode,jdbcType=VARCHAR}, #{typeDesc,jdbcType=VARCHAR}, 
+      #{methodCode,jdbcType=VARCHAR}, #{methodDesc,jdbcType=VARCHAR}, #{privilegeCode,jdbcType=VARCHAR}, 
       #{lastUpdateDate,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.klhd.psi.vo.role.RolePrivilegeVO">
-    insert into role_privilege
+  <insert id="insertSelective" parameterType="com.klhd.psi.vo.privilege.PrivilegeVO">
+    insert into t_privilege
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="roleId != null">
-        role_id,
+      <if test="typeCode != null">
+        type_code,
+      </if>
+      <if test="typeDesc != null">
+        type_desc,
+      </if>
+      <if test="methodCode != null">
+        method_code,
+      </if>
+      <if test="methodDesc != null">
+        method_desc,
       </if>
       <if test="privilegeCode != null">
         privilege_code,
@@ -132,8 +146,17 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="roleId != null">
-        #{roleId,jdbcType=INTEGER},
+      <if test="typeCode != null">
+        #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="typeDesc != null">
+        #{typeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="methodCode != null">
+        #{methodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="methodDesc != null">
+        #{methodDesc,jdbcType=VARCHAR},
       </if>
       <if test="privilegeCode != null">
         #{privilegeCode,jdbcType=VARCHAR},
@@ -143,20 +166,29 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.klhd.psi.vo.role.RolePrivilegeVOQuery" resultType="java.lang.Long">
-    select count(*) from t_role_privilege
+  <select id="countByExample" parameterType="com.klhd.psi.vo.privilege.PrivilegeVOQuery" resultType="java.lang.Long">
+    select count(*) from t_privilege
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update t_role_privilege
+    update t_privilege
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.roleId != null">
-        role_id = #{record.roleId,jdbcType=INTEGER},
+      <if test="record.typeCode != null">
+        type_code = #{record.typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.typeDesc != null">
+        type_desc = #{record.typeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.methodCode != null">
+        method_code = #{record.methodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.methodDesc != null">
+        method_desc = #{record.methodDesc,jdbcType=VARCHAR},
       </if>
       <if test="record.privilegeCode != null">
         privilege_code = #{record.privilegeCode,jdbcType=VARCHAR},
@@ -170,20 +202,32 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update t_role_privilege
+    update t_privilege
     set id = #{record.id,jdbcType=INTEGER},
-      role_id = #{record.roleId,jdbcType=INTEGER},
+      type_code = #{record.typeCode,jdbcType=VARCHAR},
+      type_desc = #{record.typeDesc,jdbcType=VARCHAR},
+      method_code = #{record.methodCode,jdbcType=VARCHAR},
+      method_desc = #{record.methodDesc,jdbcType=VARCHAR},
       privilege_code = #{record.privilegeCode,jdbcType=VARCHAR},
       last_update_date = #{record.lastUpdateDate,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.klhd.psi.vo.role.RolePrivilegeVO">
-    update role_privilege
+  <update id="updateByPrimaryKeySelective" parameterType="com.klhd.psi.vo.privilege.PrivilegeVO">
+    update t_privilege
     <set>
-      <if test="roleId != null">
-        role_id = #{roleId,jdbcType=INTEGER},
+      <if test="typeCode != null">
+        type_code = #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="typeDesc != null">
+        type_desc = #{typeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="methodCode != null">
+        method_code = #{methodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="methodDesc != null">
+        method_desc = #{methodDesc,jdbcType=VARCHAR},
       </if>
       <if test="privilegeCode != null">
         privilege_code = #{privilegeCode,jdbcType=VARCHAR},
@@ -194,9 +238,12 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.klhd.psi.vo.role.RolePrivilegeVO">
-    update role_privilege
-    set role_id = #{roleId,jdbcType=INTEGER},
+  <update id="updateByPrimaryKey" parameterType="com.klhd.psi.vo.privilege.PrivilegeVO">
+    update t_privilege
+    set type_code = #{typeCode,jdbcType=VARCHAR},
+      type_desc = #{typeDesc,jdbcType=VARCHAR},
+      method_code = #{methodCode,jdbcType=VARCHAR},
+      method_desc = #{methodDesc,jdbcType=VARCHAR},
       privilege_code = #{privilegeCode,jdbcType=VARCHAR},
       last_update_date = #{lastUpdateDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}

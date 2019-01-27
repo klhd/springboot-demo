@@ -97,7 +97,7 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from job
+    delete from t_dept
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.klhd.psi.vo.job.UserJobQuery">
@@ -107,13 +107,13 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.klhd.psi.vo.job.UserJob">
-    insert into job (id, job_name, job_desc, 
+    insert into t_dept (id, job_name, job_desc,
       last_update_date)
     values (#{id,jdbcType=INTEGER}, #{jobName,jdbcType=VARCHAR}, #{jobDesc,jdbcType=VARCHAR}, 
       #{lastUpdateDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.klhd.psi.vo.job.UserJob">
-    insert into job
+    insert into t_dept
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -180,7 +180,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.klhd.psi.vo.job.UserJob">
-    update job
+    update t_dept
     <set>
       <if test="jobName != null">
         job_name = #{jobName,jdbcType=VARCHAR},
@@ -195,7 +195,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.klhd.psi.vo.job.UserJob">
-    update job
+    update t_dept
     set job_name = #{jobName,jdbcType=VARCHAR},
       job_desc = #{jobDesc,jdbcType=VARCHAR},
       last_update_date = #{lastUpdateDate,jdbcType=TIMESTAMP}

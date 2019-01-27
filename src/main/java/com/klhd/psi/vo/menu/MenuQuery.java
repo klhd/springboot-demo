@@ -347,6 +347,76 @@ public class MenuQuery {
             return (Criteria) this;
         }
 
+        public Criteria andOpenTypeIsNull() {
+            addCriterion("open_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpenTypeIsNotNull() {
+            addCriterion("open_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpenTypeEqualTo(String value) {
+            addCriterion("open_type =", value, "openType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpenTypeNotEqualTo(String value) {
+            addCriterion("open_type <>", value, "openType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpenTypeGreaterThan(String value) {
+            addCriterion("open_type >", value, "openType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpenTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("open_type >=", value, "openType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpenTypeLessThan(String value) {
+            addCriterion("open_type <", value, "openType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpenTypeLessThanOrEqualTo(String value) {
+            addCriterion("open_type <=", value, "openType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpenTypeLike(String value) {
+            addCriterion("open_type like", value, "openType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpenTypeNotLike(String value) {
+            addCriterion("open_type not like", value, "openType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpenTypeIn(List<String> values) {
+            addCriterion("open_type in", values, "openType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpenTypeNotIn(List<String> values) {
+            addCriterion("open_type not in", values, "openType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpenTypeBetween(String value1, String value2) {
+            addCriterion("open_type between", value1, value2, "openType");
+            return (Criteria) this;
+        }
+
+        public Criteria andOpenTypeNotBetween(String value1, String value2) {
+            addCriterion("open_type not between", value1, value2, "openType");
+            return (Criteria) this;
+        }
+
         public Criteria andPrivilegeCodeIsNull() {
             addCriterion("privilege_code is null");
             return (Criteria) this;

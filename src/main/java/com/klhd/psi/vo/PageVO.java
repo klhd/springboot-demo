@@ -24,6 +24,10 @@ public class PageVO {
         return this;
     }
 
+    public int getStartRow() {
+        return startRow;
+    }
+
     public int getPageSize() {
         return pageSize;
     }

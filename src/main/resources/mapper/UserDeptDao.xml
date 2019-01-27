@@ -99,7 +99,7 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from dept
+    delete from t_dept
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.klhd.psi.vo.dept.UserDeptQuery">
@@ -109,7 +109,7 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.klhd.psi.vo.dept.UserDept">
-    insert into dept (id, dept_code, dept_name, 
+    insert into t_dept (id, dept_code, dept_name,
       dept_desc, parent_id, last_update_date
       )
     values (#{id,jdbcType=INTEGER}, #{deptCode,jdbcType=VARCHAR}, #{deptName,jdbcType=VARCHAR}, 
@@ -117,7 +117,7 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.klhd.psi.vo.dept.UserDept">
-    insert into dept
+    insert into t_dept
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -204,7 +204,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.klhd.psi.vo.dept.UserDept">
-    update dept
+    update t_dept
     <set>
       <if test="deptCode != null">
         dept_code = #{deptCode,jdbcType=VARCHAR},
@@ -225,7 +225,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.klhd.psi.vo.dept.UserDept">
-    update dept
+    update t_dept
     set dept_code = #{deptCode,jdbcType=VARCHAR},
       dept_name = #{deptName,jdbcType=VARCHAR},
       dept_desc = #{deptDesc,jdbcType=VARCHAR},

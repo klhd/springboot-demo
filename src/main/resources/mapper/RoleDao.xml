@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.klhd.psi.dao.UserRoleVODao">
-  <resultMap id="BaseResultMap" type="com.klhd.psi.vo.user.UserRoleVO">
+<mapper namespace="com.klhd.psi.dao.RoleDao">
+  <resultMap id="BaseResultMap" type="com.klhd.psi.vo.role.RoleVO">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="role_name" jdbcType="VARCHAR" property="roleName" />
     <result column="last_update_date" jdbcType="TIMESTAMP" property="lastUpdateDate" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -67,19 +66,19 @@
   </sql>
   <sql id="Base_Column_List">
     <if test="fields == null">
-      id, user_id, role_id, last_update_date
+      id, role_name, last_update_date
     </if>
     <if test="fields != null">
       ${fields}
     </if>
   </sql>
-  <select id="selectByExample" parameterType="com.klhd.psi.vo.user.UserRoleVOQuery" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.klhd.psi.vo.role.RoleVOQuery" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from t_user_role
+    from t_role
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -92,37 +91,34 @@
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
-    id,user_id,role_id,last_update_date
-    from t_user_role
+    id,role_name,last_update_date
+    from t_role
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from user_role
+    delete from t_role
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.klhd.psi.vo.user.UserRoleVOQuery">
-    delete from t_user_role
+  <delete id="deleteByExample" parameterType="com.klhd.psi.vo.role.RoleVOQuery">
+    delete from t_role
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.klhd.psi.vo.user.UserRoleVO">
-    insert into user_role (id, user_id, role_id, 
-      last_update_date)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, 
-      #{lastUpdateDate,jdbcType=TIMESTAMP})
+  <insert id="insert" parameterType="com.klhd.psi.vo.role.RoleVO">
+    insert into t_role (id, role_name, last_update_date
+      )
+    values (#{id,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR}, #{lastUpdateDate,jdbcType=TIMESTAMP}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.klhd.psi.vo.user.UserRoleVO">
-    insert into user_role
+  <insert id="insertSelective" parameterType="com.klhd.psi.vo.role.RoleVO">
+    insert into t_role
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="userId != null">
-        user_id,
-      </if>
-      <if test="roleId != null">
-        role_id,
+      <if test="roleName != null">
+        role_name,
       </if>
       <if test="lastUpdateDate != null">
         last_update_date,
@@ -132,34 +128,28 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="roleId != null">
-        #{roleId,jdbcType=INTEGER},
+      <if test="roleName != null">
+        #{roleName,jdbcType=VARCHAR},
       </if>
       <if test="lastUpdateDate != null">
         #{lastUpdateDate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.klhd.psi.vo.user.UserRoleVOQuery" resultType="java.lang.Long">
-    select count(*) from t_user_role
+  <select id="countByExample" parameterType="com.klhd.psi.vo.role.RoleVOQuery" resultType="java.lang.Long">
+    select count(*) from t_role
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update t_user_role
+    update t_role
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.userId != null">
-        user_id = #{record.userId,jdbcType=INTEGER},
-      </if>
-      <if test="record.roleId != null">
-        role_id = #{record.roleId,jdbcType=INTEGER},
+      <if test="record.roleName != null">
+        role_name = #{record.roleName,jdbcType=VARCHAR},
       </if>
       <if test="record.lastUpdateDate != null">
         last_update_date = #{record.lastUpdateDate,jdbcType=TIMESTAMP},
@@ -170,23 +160,19 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update t_user_role
+    update t_role
     set id = #{record.id,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=INTEGER},
-      role_id = #{record.roleId,jdbcType=INTEGER},
+      role_name = #{record.roleName,jdbcType=VARCHAR},
       last_update_date = #{record.lastUpdateDate,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.klhd.psi.vo.user.UserRoleVO">
-    update user_role
+  <update id="updateByPrimaryKeySelective" parameterType="com.klhd.psi.vo.role.RoleVO">
+    update t_role
     <set>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=INTEGER},
-      </if>
-      <if test="roleId != null">
-        role_id = #{roleId,jdbcType=INTEGER},
+      <if test="roleName != null">
+        role_name = #{roleName,jdbcType=VARCHAR},
       </if>
       <if test="lastUpdateDate != null">
         last_update_date = #{lastUpdateDate,jdbcType=TIMESTAMP},
@@ -194,10 +180,9 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.klhd.psi.vo.user.UserRoleVO">
-    update user_role
-    set user_id = #{userId,jdbcType=INTEGER},
-      role_id = #{roleId,jdbcType=INTEGER},
+  <update id="updateByPrimaryKey" parameterType="com.klhd.psi.vo.role.RoleVO">
+    update t_role
+    set role_name = #{roleName,jdbcType=VARCHAR},
       last_update_date = #{lastUpdateDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>

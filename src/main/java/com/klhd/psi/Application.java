@@ -7,11 +7,13 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableScheduling
 @EnableCaching
 @ServletComponentScan
+@EnableSwagger2
 public class Application extends SpringBootServletInitializer {
 
     @Override

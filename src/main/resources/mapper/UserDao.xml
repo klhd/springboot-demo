@@ -5,6 +5,8 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_account" jdbcType="VARCHAR" property="userAccount" />
     <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="tel_num" jdbcType="VARCHAR" property="telNum" />
     <result column="dept_id" jdbcType="INTEGER" property="deptId" />
     <result column="job_id" jdbcType="VARCHAR" property="jobId" />
@@ -76,8 +78,8 @@
   </sql>
   <sql id="Base_Column_List">
     <if test="fields == null">
-      id, user_account, password, tel_num, dept_id, job_id, account_state, user_state, 
-      address, id_num, birthday, photo, last_update_date
+      id, user_account, password, user_name, email, tel_num, dept_id, job_id, account_state, 
+      user_state, address, id_num, birthday, photo, last_update_date
     </if>
     <if test="fields != null">
       ${fields}
@@ -102,12 +104,12 @@
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
-    id,user_account,password,tel_num,dept_id,job_id,account_state,user_state,address,id_num,birthday,photo,last_update_date
+    id,user_account,password,user_name,email,tel_num,dept_id,job_id,account_state,user_state,address,id_num,birthday,photo,last_update_date
     from t_user
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from user
+    delete from t_user
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.klhd.psi.vo.user.UserVOQuery">
@@ -117,19 +119,21 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.klhd.psi.vo.user.UserVO">
-    insert into user (id, user_account, password, 
-      tel_num, dept_id, job_id, 
-      account_state, user_state, address, 
-      id_num, birthday, photo, 
-      last_update_date)
+    insert into t_user (id, user_account, password, 
+      user_name, email, tel_num, 
+      dept_id, job_id, account_state, 
+      user_state, address, id_num, 
+      birthday, photo, last_update_date
+      )
     values (#{id,jdbcType=INTEGER}, #{userAccount,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{telNum,jdbcType=VARCHAR}, #{deptId,jdbcType=INTEGER}, #{jobId,jdbcType=VARCHAR}, 
-      #{accountState,jdbcType=VARCHAR}, #{userState,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{idNum,jdbcType=VARCHAR}, #{birthday,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR}, 
-      #{lastUpdateDate,jdbcType=TIMESTAMP})
+      #{userName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{telNum,jdbcType=VARCHAR}, 
+      #{deptId,jdbcType=INTEGER}, #{jobId,jdbcType=VARCHAR}, #{accountState,jdbcType=VARCHAR}, 
+      #{userState,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{idNum,jdbcType=VARCHAR}, 
+      #{birthday,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR}, #{lastUpdateDate,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.klhd.psi.vo.user.UserVO">
-    insert into user
+    insert into t_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -139,6 +143,12 @@
       </if>
       <if test="password != null">
         password,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="email != null">
+        email,
       </if>
       <if test="telNum != null">
         tel_num,
@@ -180,6 +190,12 @@
       </if>
       <if test="password != null">
         #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
       </if>
       <if test="telNum != null">
         #{telNum,jdbcType=VARCHAR},
@@ -231,6 +247,12 @@
       <if test="record.password != null">
         password = #{record.password,jdbcType=VARCHAR},
       </if>
+      <if test="record.userName != null">
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null">
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
       <if test="record.telNum != null">
         tel_num = #{record.telNum,jdbcType=VARCHAR},
       </if>
@@ -271,6 +293,8 @@
     set id = #{record.id,jdbcType=INTEGER},
       user_account = #{record.userAccount,jdbcType=VARCHAR},
       password = #{record.password,jdbcType=VARCHAR},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
       tel_num = #{record.telNum,jdbcType=VARCHAR},
       dept_id = #{record.deptId,jdbcType=INTEGER},
       job_id = #{record.jobId,jdbcType=VARCHAR},
@@ -286,13 +310,19 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.klhd.psi.vo.user.UserVO">
-    update user
+    update t_user
     <set>
       <if test="userAccount != null">
         user_account = #{userAccount,jdbcType=VARCHAR},
       </if>
       <if test="password != null">
         password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
       </if>
       <if test="telNum != null">
         tel_num = #{telNum,jdbcType=VARCHAR},
@@ -328,9 +358,11 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.klhd.psi.vo.user.UserVO">
-    update user
+    update t_user
     set user_account = #{userAccount,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
       tel_num = #{telNum,jdbcType=VARCHAR},
       dept_id = #{deptId,jdbcType=INTEGER},
       job_id = #{jobId,jdbcType=VARCHAR},

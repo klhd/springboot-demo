@@ -36,11 +36,14 @@ spring:
           starttls:
             enable: true
             required: true
+  login:
+    whiteList: /user/login;*.js
 
 mybatis:
   mapperLocations: classpath:mapper/*.xml
   configuration:
       map-underscore-to-camel-case: true
+      log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 server:
   tomcat:
@@ -57,4 +60,3 @@ info:
     description: "@project.description@"
     version: "@project.version@"
     spring-boot-version: "@project.parent.version@"
-

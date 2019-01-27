@@ -8,12 +8,16 @@ public class ResultVO {
     private String message;
     private Object result;
 
+    public ResultVO(){
+        this.code = 200;
+    }
+
     public ResultVO fail(){
         return fail(null);
     }
     public ResultVO fail(String msg){
         this.message = msg;
-        this.code = 200;
+        this.code = 500;
         return this;
     }
 
