@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import com.google.common.collect.Maps;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.CollectionUtils;
 
@@ -16,6 +17,16 @@ public class RedisUtil {
         this.redisTemplate = redisTemplate;
     }
     //=============================common============================  
+
+    static Map<String, Object> cache = Maps.newHashMap();
+
+    public static void setValue(String key, Object value){
+        cache.put(key, value);
+    }
+    public static Object getValue(String key){
+        return cache.get(key);
+    }
+
 
     /**
      * 指定缓存失效时间

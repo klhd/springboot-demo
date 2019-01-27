@@ -2,10 +2,15 @@ package com.klhd.psi.dao;
 
 import com.klhd.psi.vo.role.RolePrivilegeVO;
 import com.klhd.psi.vo.role.RolePrivilegeVOQuery;
-import java.util.List;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
-public interface RolePrivilegeVODao {
+import java.util.List;
+
+@Mapper
+@Repository
+public interface RolePrivilegeDao {
     long countByExample(RolePrivilegeVOQuery example);
 
     int deleteByExample(RolePrivilegeVOQuery example);

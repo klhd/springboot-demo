@@ -4,7 +4,6 @@ package com.klhd.psi.vo;
  * Created by cheng on 2017/8/29.
  */
 public class ResultVO {
-    private boolean success = true;
     private Integer code;
     private String message;
     private Object result;
@@ -14,20 +13,12 @@ public class ResultVO {
     }
     public ResultVO fail(String msg){
         this.message = msg;
-        this.success = false;
+        this.code = 200;
         return this;
     }
 
     public static ResultVO getInstance(){
         return new ResultVO();
-    }
-
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
     }
 
     public String getMessage() {

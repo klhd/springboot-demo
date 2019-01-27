@@ -2,9 +2,14 @@ package com.klhd.psi.dao;
 
 import com.klhd.psi.vo.dept.UserDept;
 import com.klhd.psi.vo.dept.UserDeptQuery;
-import java.util.List;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
+@Mapper
+@Repository
 public interface UserDeptDao {
     long countByExample(UserDeptQuery example);
 

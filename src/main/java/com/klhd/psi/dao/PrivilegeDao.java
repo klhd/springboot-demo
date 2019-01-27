@@ -2,10 +2,15 @@ package com.klhd.psi.dao;
 
 import com.klhd.psi.vo.privilege.PrivilegeVO;
 import com.klhd.psi.vo.privilege.PrivilegeVOQuery;
-import java.util.List;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
-public interface PrivilegeVODao {
+import java.util.List;
+
+@Mapper
+@Repository
+public interface PrivilegeDao {
     long countByExample(PrivilegeVOQuery example);
 
     int deleteByExample(PrivilegeVOQuery example);

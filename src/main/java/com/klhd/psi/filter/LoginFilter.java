@@ -1,66 +1,81 @@
 package com.klhd.psi.filter;
 
+import com.alibaba.fastjson.JSON;
+import com.klhd.psi.config.redis.RedisUtil;
+import com.klhd.psi.vo.ResultVO;
+import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
+import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
-public class LoginHandlerInterceptor implements HandlerInterceptor {
+
+@WebFilter(filterName="TestFilter",urlPatterns={"/*"})
+public class LoginFilter implements Filter {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Value("${spring.profiles}")
     private String profiles;
+    @Value("${spring.login.whiteList}")
+    private String whiteList;
 
-    /**
-     * services 执行之前调用
-     */
     @Override
-    public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object handler)
-            throws Exception {
+    public void init(FilterConfig filterConfig) throws ServletException {
+        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, filterConfig.getServletContext());
+    }
+
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
+        HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
         MDC.put("userId", System.currentTimeMillis() + "");
         MDC.put("ip", getClientIpAddr(httpServletRequest));
 //        System.out.println(getRemoteAddr(httpServletRequest));
 //        System.out.println(getClientIpAddress(httpServletRequest));
 //        System.out.println(getClientIpAddr(httpServletRequest));
 //        System.out.println(getIpAddr(httpServletRequest));
-
-        if("dev".equals(profiles)){
-            logger.info("登录校验：开发环境下超级用户自动登录");
-            return true;
+        if(whiteList.indexOf(httpServletRequest.getRequestURI()) != -1){
+            filterChain.doFilter(servletRequest, servletResponse);
+            return;
         }
-        /*System.out.println("------preHandle-----");
-        Map map =(Map)httpServletRequest.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
-        System.out.println(map.get("name"));
-        System.out.println(httpServletRequest.getParameter("username"));
-        if("zhangsan".equals(map.get("name"))) {
-            return true;    //如果false，停止流程，api被拦截
-        }else {
-//            PrintWriter printWriter = httpServletResponse.getWriter();
-//            printWriter.write("please login again!");
-            return true;
-        }*/
-        return true;
+
+        String token = null;
+        Cookie[] cookies = httpServletRequest.getCookies();
+        for(Cookie c : cookies){
+            if("sso_id".equals(c.getName())){
+                token = c.getValue();
+                break;
+            }
+        }
+        if(Strings.isNotEmpty(token)){
+            //校验token有效性
+            Object value = RedisUtil.getValue(token);
+            if(value != null){
+                filterChain.doFilter(servletRequest, servletResponse);
+                return;
+            }
+            //有效，token续期后继续执行，直接return true;
+        }
+        ResultVO res = new ResultVO();
+        res.setCode(401);
+        res.setMessage("您没有登录，请登录后操作。");
+        httpServletResponse.setStatus(200);
+        httpServletResponse.setContentType("application/x-javascript;charset=UTF-8");
+        httpServletResponse.getWriter().write(JSON.toJSONString(res));
+        httpServletResponse.getWriter().flush();
     }
 
-    /**
-     * services 执行之后，且页面渲染之前调用
-     */
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-            ModelAndView modelAndView) throws Exception {
-    }
+    public void destroy() {
 
-    /**
-     * 页面渲染之后调用，一般用于资源清理操作
-     */
-    @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
-            throws Exception {
     }
 
     /**
@@ -177,5 +192,4 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
         }
         return request.getRemoteAddr();
     }
-
 }

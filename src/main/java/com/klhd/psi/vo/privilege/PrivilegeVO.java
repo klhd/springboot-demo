@@ -82,4 +82,7 @@ public class PrivilegeVO implements Serializable {
         sb.append("]");
         return sb.toString();
     }
+    public String getPrivilegeCode(){
+        return this.typeCode + "$" + this.methodCode;
+    }
 }

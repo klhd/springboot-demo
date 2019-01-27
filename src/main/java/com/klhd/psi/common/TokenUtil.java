@@ -1,5 +1,8 @@
 package com.klhd.psi.common;
 
+import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
+import com.klhd.psi.vo.user.UserVO;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jose.crypto.MACVerifier;
@@ -8,9 +11,20 @@ import net.minidev.json.JSONObject;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class TokenUtil {
-    private static final byte[] SECRET = "pOJgKWbNRiMQLalqNvHdPNbsYUN".getBytes();
+    private static final byte[] SECRET = Strings.repeat("pJKRiQLalqNvHNbsYUN01lsp6Aa12we2", 8).getBytes();
+
+    public static String createToken(){
+        return UUID.randomUUID().toString().replaceAll("-", "").toUpperCase();
+    }
+
+    public static String createToken(UserVO userVo) throws JOSEException {
+        Map<String, Object> payload = Maps.newHashMap();
+        payload.put("id", userVo.getId());
+        return creatToken(payload);
+    }
 
     //生成一个token
     public static String creatToken(Map<String, Object> payloadMap) throws JOSEException {

@@ -35,8 +35,7 @@ public class LogInterceptor {
             logger.error("服务异常，异常编码: "+errorNum, throwable);
             ResultVO rst = new ResultVO();
             rst.setCode(500);
-            rst.setSuccess(false);
-            rst.setMessage( throwable.getMessage() + " 异常编码: " + errorNum);
+            rst.setMessage( throwable.getLocalizedMessage() + " 异常编码: " + errorNum);
             object = rst;
         }
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
