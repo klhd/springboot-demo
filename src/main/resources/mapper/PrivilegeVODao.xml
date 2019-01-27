@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.klhd.psi.dao.PrivilegeVODao">
+  <resultMap id="BaseResultMap" type="com.klhd.psi.vo.privilege.PrivilegeVO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="type_code" jdbcType="VARCHAR" property="typeCode" />
+    <result column="type_desc" jdbcType="VARCHAR" property="typeDesc" />
+    <result column="method_code" jdbcType="VARCHAR" property="methodCode" />
+    <result column="method_desc" jdbcType="VARCHAR" property="methodDesc" />
+    <result column="last_update_date" jdbcType="TIMESTAMP" property="lastUpdateDate" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    <if test="fields == null">
+      id, type_code, type_desc, method_code, method_desc, last_update_date
+    </if>
+    <if test="fields != null">
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" parameterType="com.klhd.psi.vo.privilege.PrivilegeVOQuery" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_privilege
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null">
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    id,type_code,type_desc,method_code,method_desc,last_update_date
+    from t_privilege
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from privilege
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.klhd.psi.vo.privilege.PrivilegeVOQuery">
+    delete from t_privilege
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.klhd.psi.vo.privilege.PrivilegeVO">
+    insert into privilege (id, type_code, type_desc, 
+      method_code, method_desc, last_update_date
+      )
+    values (#{id,jdbcType=INTEGER}, #{typeCode,jdbcType=VARCHAR}, #{typeDesc,jdbcType=VARCHAR}, 
+      #{methodCode,jdbcType=VARCHAR}, #{methodDesc,jdbcType=VARCHAR}, #{lastUpdateDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.klhd.psi.vo.privilege.PrivilegeVO">
+    insert into privilege
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="typeCode != null">
+        type_code,
+      </if>
+      <if test="typeDesc != null">
+        type_desc,
+      </if>
+      <if test="methodCode != null">
+        method_code,
+      </if>
+      <if test="methodDesc != null">
+        method_desc,
+      </if>
+      <if test="lastUpdateDate != null">
+        last_update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="typeCode != null">
+        #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="typeDesc != null">
+        #{typeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="methodCode != null">
+        #{methodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="methodDesc != null">
+        #{methodDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateDate != null">
+        #{lastUpdateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.klhd.psi.vo.privilege.PrivilegeVOQuery" resultType="java.lang.Long">
+    select count(*) from t_privilege
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_privilege
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.typeCode != null">
+        type_code = #{record.typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.typeDesc != null">
+        type_desc = #{record.typeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.methodCode != null">
+        method_code = #{record.methodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.methodDesc != null">
+        method_desc = #{record.methodDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastUpdateDate != null">
+        last_update_date = #{record.lastUpdateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_privilege
+    set id = #{record.id,jdbcType=INTEGER},
+      type_code = #{record.typeCode,jdbcType=VARCHAR},
+      type_desc = #{record.typeDesc,jdbcType=VARCHAR},
+      method_code = #{record.methodCode,jdbcType=VARCHAR},
+      method_desc = #{record.methodDesc,jdbcType=VARCHAR},
+      last_update_date = #{record.lastUpdateDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.klhd.psi.vo.privilege.PrivilegeVO">
+    update privilege
+    <set>
+      <if test="typeCode != null">
+        type_code = #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="typeDesc != null">
+        type_desc = #{typeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="methodCode != null">
+        method_code = #{methodCode,jdbcType=VARCHAR},
+      </if>
+      <if test="methodDesc != null">
+        method_desc = #{methodDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="lastUpdateDate != null">
+        last_update_date = #{lastUpdateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.klhd.psi.vo.privilege.PrivilegeVO">
+    update privilege
+    set type_code = #{typeCode,jdbcType=VARCHAR},
+      type_desc = #{typeDesc,jdbcType=VARCHAR},
+      method_code = #{methodCode,jdbcType=VARCHAR},
+      method_desc = #{methodDesc,jdbcType=VARCHAR},
+      last_update_date = #{lastUpdateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
