@@ -3,7 +3,9 @@ package com.klhd.psi.filter;
 import com.alibaba.fastjson.JSON;
 import com.klhd.psi.common.Constants;
 import com.klhd.psi.config.redis.RedisUtil;
+import com.klhd.psi.services.BaseUserService;
 import com.klhd.psi.vo.ResultVO;
+import com.klhd.psi.vo.user.UserVO;
 import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +16,6 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -30,6 +31,8 @@ public class LoginFilter implements Filter {
     private String whiteList;
     @Autowired
     private RedisUtil redisUtil;
+    @Autowired
+    private BaseUserService baseUserService;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -40,7 +43,6 @@ public class LoginFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
-        MDC.put("userId", System.currentTimeMillis() + "");
         MDC.put("ip", getClientIpAddr(httpServletRequest));
 //        System.out.println(getRemoteAddr(httpServletRequest));
 //        System.out.println(getClientIpAddress(httpServletRequest));
@@ -51,23 +53,18 @@ public class LoginFilter implements Filter {
             return;
         }
 
-        String token = null;
-        Cookie[] cookies = httpServletRequest.getCookies();
-        for(Cookie c : cookies){
-            if("sso_id".equals(c.getName())){
-                token = c.getValue();
-                break;
-            }
-        }
+        String token = baseUserService.getCurrentToken();
         if(Strings.isNotEmpty(token)){
             //校验token有效性
-            Object value = redisUtil.get(token);
-            if(value != null){
-                redisUtil.set(token, value, Constants.SESSION_TIME);
+            UserVO userVO = (UserVO)redisUtil.get(token);
+            if(userVO != null){
+                //有效，token续期后继续执行，直接return true;
+                redisUtil.set(token, userVO, Constants.SESSION_TIME);
                 filterChain.doFilter(servletRequest, servletResponse);
+                //设置用户ID
+                MDC.put("userId", userVO.getId()+"");
                 return;
             }
-            //有效，token续期后继续执行，直接return true;
         }
         if(httpServletRequest.getHeader("accept").indexOf("text/html") != -1){
             httpServletResponse.sendRedirect("/");

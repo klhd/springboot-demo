@@ -1,6 +1,7 @@
 package com.klhd.psi.vo.user;
 
 import com.klhd.psi.vo.menu.Menu;
+import com.klhd.psi.vo.org.UserOrg;
 import com.klhd.psi.vo.privilege.PrivilegeVO;
 import com.klhd.psi.vo.role.RoleVO;
 
@@ -12,6 +13,7 @@ public class UserExtVO extends UserVO {
     private List<Menu> menuList;
     private List<PrivilegeVO> permissionList;
     private List<RoleVO> roleList;
+    private UserOrg userOrg;
 
     public String getNewPwd() {
         return newPwd;
@@ -27,5 +29,37 @@ public class UserExtVO extends UserVO {
 
     public void setOldPwd(String oldPwd) {
         this.oldPwd = oldPwd;
+    }
+
+    public List<Menu> getMenuList() {
+        return menuList;
+    }
+
+    public void setMenuList(List<Menu> menuList) {
+        this.menuList = menuList;
+    }
+
+    public List<PrivilegeVO> getPermissionList() {
+        return permissionList;
+    }
+
+    public void setPermissionList(List<PrivilegeVO> permissionList) {
+        this.permissionList = permissionList;
+    }
+
+    public List<RoleVO> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(List<RoleVO> roleList) {
+        this.roleList = roleList;
+    }
+
+    public UserOrg getUserOrg() {
+        return userOrg;
+    }
+
+    public void setUserOrg(UserOrg userOrg) {
+        this.userOrg = userOrg;
     }
 }

@@ -1,5 +1,7 @@
 package com.klhd.psi.services;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
 import com.klhd.psi.annotation.ControllerPermission;
 import com.klhd.psi.annotation.Permission;
@@ -19,7 +21,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -85,12 +90,20 @@ public class UserService {
         //获取用户菜单
         List<Menu> userMenuList = userExtendDao.getUserMenuList(currentUser.getId());
 
+        UserExtVO userExtVO = JSONObject.parseObject(JSON.toJSONString(currentUser), UserExtVO.class);
+        userExtVO.setMenuList(userMenuList);
+        userExtVO.setPermissionList(userPrivList);
+
+        //更改缓存的对象
+        baseUserService.restore(userExtVO);
+
         Map<String, Object> data = Maps.newHashMap();
         currentUser.setPassword(null);
         data.put("userInfo", currentUser);
         data.put("menu", userMenuList);
         data.put("permission", userPrivList);
         data.put("token", baseUserService.getCurrentToken());
+        resultVO.setResult(data);
         return resultVO;
     }
 
@@ -156,13 +169,16 @@ public class UserService {
     ) throws Exception {
         ResultVO resultVO = ResultVO.getInstance();
 
-        UserVO currentUser = baseUserService.getCurrentUser();
+        UserExtVO currentUser = baseUserService.getCurrentUser();
         if(currentUser.getPassword().equals(DigestUtil.SHA256(record.getOldPwd()))){
             UserVO vo = new UserVO();
             vo.setId(currentUser.getId());
             vo.setPassword(DigestUtil.SHA256(record.getNewPwd()));
             userDao.updateByPrimaryKeySelective(vo);
             resultVO.setMessage("修改成功");
+            //更新缓存
+            currentUser.setPassword(vo.getPassword());
+            baseUserService.restore(currentUser);
         }else{
             resultVO.setCode(500);
             resultVO.setMessage("旧密码输入不对，请重新输入");

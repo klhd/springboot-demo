@@ -1,6 +1,8 @@
 package com.klhd.psi.services;
 
+import com.klhd.psi.common.Constants;
 import com.klhd.psi.config.redis.RedisUtil;
+import com.klhd.psi.vo.user.UserExtVO;
 import com.klhd.psi.vo.user.UserVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +20,8 @@ public class BaseUserService {
     @Autowired
     private RedisUtil redisUtil;
 
-    public UserVO getCurrentUser(){
-        UserVO userVO = (UserVO) redisUtil.get(getCurrentToken());
+    public UserExtVO getCurrentUser(){
+        UserExtVO userVO = (UserExtVO) redisUtil.get(getCurrentToken());
         return userVO;
     }
 
@@ -35,4 +37,10 @@ public class BaseUserService {
         }
         return token;
     }
+
+    public void restore(UserExtVO userExtVO){
+        String token = getCurrentToken();
+        redisUtil.set(token, userExtVO, Constants.SESSION_TIME);
+    }
+
 }
