@@ -78,7 +78,7 @@ public class UserService {
     @ApiImplicitParams({})
     public ResultVO base() throws Exception {
         ResultVO resultVO = ResultVO.getInstance();
-        UserVO currentUser = baseUserService.getCurrentUser();
+        UserVO currentUser = (UserVO)redisUtil.get(baseUserService.getCurrentToken());
         if(currentUser == null){
             resultVO.setCode(401);
             resultVO.setMessage("您没有登录，请登录后操作。");
