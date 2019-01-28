@@ -44,13 +44,15 @@ public class AnnotationScanner implements ApplicationListener<ApplicationReadyEv
      */
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
-        try {
-            List<String> list = Files.readLines(new File("D://mysql.key"), Charset.forName("UTF-8"));
-            dataSource.setJdbcUrl(list.get(0));
-            dataSource.setUsername(list.get(1));
-            dataSource.setPassword(list.get(2));
-        } catch (IOException e) {
-            logger.error("数据库配置失败");
+        if("dev".equals(profiles)) {
+            try {
+                List<String> list = Files.readLines(new File("D://mysql.key"), Charset.forName("UTF-8"));
+                dataSource.setJdbcUrl(list.get(0));
+                dataSource.setUsername(list.get(1));
+                dataSource.setPassword(list.get(2));
+            } catch (IOException e) {
+                logger.error("数据库配置失败");
+            }
         }
 
         List<PrivilegeVO> list = privilegeDao.selectByExample(new PrivilegeVOQuery());

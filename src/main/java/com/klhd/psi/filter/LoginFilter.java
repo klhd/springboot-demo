@@ -1,12 +1,14 @@
 package com.klhd.psi.filter;
 
 import com.alibaba.fastjson.JSON;
+import com.klhd.psi.common.Constants;
 import com.klhd.psi.config.redis.RedisUtil;
 import com.klhd.psi.vo.ResultVO;
 import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
@@ -26,6 +28,8 @@ public class LoginFilter implements Filter {
     private String profiles;
     @Value("${spring.login.whiteList}")
     private String whiteList;
+    @Autowired
+    private RedisUtil redisUtil;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -57,8 +61,9 @@ public class LoginFilter implements Filter {
         }
         if(Strings.isNotEmpty(token)){
             //校验token有效性
-            Object value = RedisUtil.getValue(token);
+            Object value = redisUtil.get(token);
             if(value != null){
+                redisUtil.set(token, value, Constants.SESSION_TIME);
                 filterChain.doFilter(servletRequest, servletResponse);
                 return;
             }

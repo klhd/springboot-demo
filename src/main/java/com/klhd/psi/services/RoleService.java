@@ -3,6 +3,7 @@ package com.klhd.psi.services;
 import com.google.common.collect.Lists;
 import com.klhd.psi.annotation.ControllerPermission;
 import com.klhd.psi.annotation.Permission;
+import com.klhd.psi.config.redis.RedisUtil;
 import com.klhd.psi.dao.PrivilegeDao;
 import com.klhd.psi.dao.RoleDao;
 import com.klhd.psi.dao.RolePrivilegeDao;
@@ -39,6 +40,8 @@ public class RoleService {
     private PrivilegeDao privilegeDao;
     @Autowired
     private UserRoleDao userRoleDao;
+    @Autowired
+    private RedisUtil redisUtil;
 
     @ApiOperation("创建")
     @ApiResponses({

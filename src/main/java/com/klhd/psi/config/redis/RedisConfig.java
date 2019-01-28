@@ -1,5 +1,8 @@
 package com.klhd.psi.config.redis;
 
+import com.google.common.io.Files;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,39 +13,37 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import redis.clients.jedis.JedisPoolConfig;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.List;
+
 @Configuration
 public class RedisConfig {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
+    @Value("${spring.profiles}")
+    private String profiles;
     @Value("${spring.redis.hostName}")
     private String hostName;
-
     @Value("${spring.redis.port}")
     private Integer port;
-
     @Value("${spring.redis.password}")
     private String password;
-
     @Value("${spring.redis.maxIdle}")
     private Integer maxIdle;
-
     @Value("${spring.redis.maxTotal}")
     private Integer maxTotal;
-
     @Value("${spring.redis.maxWaitMillis}")
     private Integer maxWaitMillis;
-
     @Value("${spring.redis.minEvictableIdleTimeMillis}")
     private Integer minEvictableIdleTimeMillis;
-
     @Value("${spring.redis.numTestsPerEvictionRun}")
     private Integer numTestsPerEvictionRun;
-
     @Value("${spring.redis.timeBetweenEvictionRunsMillis}")
     private long timeBetweenEvictionRunsMillis;
-
     @Value("${spring.redis.testOnBorrow}")
     private boolean testOnBorrow;
-
     @Value("${spring.redis.testWhileIdle}")
     private boolean testWhileIdle;
 
@@ -89,12 +90,27 @@ public class RedisConfig {
         JedisConnectionFactory JedisConnectionFactory = new JedisConnectionFactory(jedisPoolConfig);
         //连接池  
         JedisConnectionFactory.setPoolConfig(jedisPoolConfig);
-        //IP地址  
-        JedisConnectionFactory.setHostName(hostName);
-        //端口号  
-        JedisConnectionFactory.setPort(port);
-        //如果Redis设置有密码  
-        JedisConnectionFactory.setPassword("123456");
+        if("dev".equals(profiles)) {
+            try {
+                List<String> list = Files.readLines(new File("D://mysql.key"), Charset.forName("UTF-8"));
+                //IP地址
+                JedisConnectionFactory.setHostName(list.get(3));
+                //端口号
+                JedisConnectionFactory.setPort(Integer.parseInt(list.get(4)));
+                //如果Redis设置有密码
+                JedisConnectionFactory.setPassword(list.get(5));
+            } catch (IOException e) {
+                logger.error("数据库配置失败");
+            }
+        }else{
+            //IP地址
+            JedisConnectionFactory.setHostName(hostName);
+            //端口号
+            JedisConnectionFactory.setPort(port);
+            //如果Redis设置有密码
+            JedisConnectionFactory.setPassword(password);
+        }
+
         //客户端超时时间单位是毫秒  
         JedisConnectionFactory.setTimeout(5000);
         return JedisConnectionFactory;

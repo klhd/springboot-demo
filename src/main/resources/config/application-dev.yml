@@ -5,11 +5,11 @@ spring:
     url: jdbc:mysql://localhost:3306/custom?characterEncoding=utf-8&useSSL=true
   redis:
     #Matser的ip地址
-    hostName: 140.143.30.228
+    hostName:
     #端口号
-    port: 6300
+    port: 0
     #如果有密码
-    password: 123456
+    password:
     #客户端超时时间单位是毫秒 默认是2000
     timeout: 10000
 

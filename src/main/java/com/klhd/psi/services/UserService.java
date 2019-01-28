@@ -3,6 +3,7 @@ package com.klhd.psi.services;
 import com.google.common.collect.Maps;
 import com.klhd.psi.annotation.ControllerPermission;
 import com.klhd.psi.annotation.Permission;
+import com.klhd.psi.common.Constants;
 import com.klhd.psi.common.DigestUtil;
 import com.klhd.psi.common.TokenUtil;
 import com.klhd.psi.config.MyProps;
@@ -13,6 +14,7 @@ import com.klhd.psi.vo.menu.Menu;
 import com.klhd.psi.vo.privilege.PrivilegeVO;
 import com.klhd.psi.vo.user.*;
 import io.swagger.annotations.*;
+import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,57 +65,82 @@ public class UserService {
     @Autowired
     private UserRoleDao userRoleDao;
 
+    @ApiOperation("获取用户基本信息")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "用户登录成功"),
+    })
+    @RequestMapping(value = "/base", method = RequestMethod.POST)
+    @ApiImplicitParams({})
+    public ResultVO base() throws Exception {
+        ResultVO resultVO = ResultVO.getInstance();
+        UserVO currentUser = baseUserService.getCurrentUser();
+        if(currentUser == null){
+            resultVO.setCode(401);
+            resultVO.setMessage("您没有登录，请登录后操作。");
+            return resultVO;
+        }
+        //获取用户角色
+        //获取用户权限
+        List<PrivilegeVO> userPrivList = userExtendDao.getUserPrivList(currentUser.getId());
+        //获取用户菜单
+        List<Menu> userMenuList = userExtendDao.getUserMenuList(currentUser.getId());
+
+        Map<String, Object> data = Maps.newHashMap();
+        currentUser.setPassword(null);
+        data.put("userInfo", currentUser);
+        data.put("menu", userMenuList);
+        data.put("permission", userPrivList);
+        data.put("token", baseUserService.getCurrentToken());
+        return resultVO;
+    }
+
     @ApiOperation("用户登录")
     @ApiResponses({
             @ApiResponse(code = 200, message = "用户登录成功"),
     })
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    @ApiImplicitParams({
-            @ApiImplicitParam(paramType="query",name="username",dataType="String",required=true,value="用户的姓名",defaultValue=""),
-            @ApiImplicitParam(paramType="query",name="password",dataType="String",required=true,value="用户的密码",defaultValue="")
-    })
-    public ResultVO login(@RequestParam Map<String, String> map) throws Exception {
+    public ResultVO login(@RequestBody @ApiParam(name = "账号和密码", value = "userAccount、password", defaultValue = "{\"userAccount\":\"admin\",\"password\":\"admin\"}", required = true) Map<String, String> map) throws Exception {
         ResultVO resultVO = ResultVO.getInstance();
+        String userAccout = map.get("userAccount");
+        String password = map.get("password");
+        if(Strings.isBlank(userAccout)){
+            resultVO.setCode(501);
+            resultVO.setMessage("用户账号不可以为空");
+            return resultVO;
+        }
+        if(Strings.isBlank(password)){
+            resultVO.setCode(502);
+            resultVO.setMessage("密码不可以为空");
+            return resultVO;
+        }
 
         UserVOQuery userQuery = new UserVOQuery();
-        userQuery.createCriteria().andIdEqualTo(1);
+        userQuery.createCriteria().andUserAccountEqualTo(userAccout);
+        userQuery.createCriteria().andPasswordEqualTo(DigestUtil.SHA256(password));
         List<UserVO> list = userDao.selectByExample(userQuery);
         UserVO user = null;
         if (list != null && list.size() > 0) {
             user = list.get(0);
         }else{
             //用户名或者密码不对
+            resultVO.setCode(500);
+            resultVO.setMessage("用户名或者密码不对");
+            return resultVO;
         }
 
         String token = TokenUtil.createToken();
-        RedisUtil.setValue(token, "-");
+        redisUtil.set(token, user, Constants.SESSION_TIME);
+
         Cookie cookie = new Cookie("sso_id", token);
         cookie.setPath("/");
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
         response.addCookie(cookie);
 
-        //获取用户角色
-        //获取用户权限
-        List<PrivilegeVO> userPrivList = userExtendDao.getUserPrivList(user.getId());
-        //获取用户菜单
-        List<Menu> userMenuList = userExtendDao.getUserMenuList(user.getId());
-
-
-//        userVODao.insert(userVO);
-
-//        System.out.println(menuDao);
-//        System.out.println(from);
-//        if(1 == 1)
-//            throw new IllegalArgumentException("sdsdsdsd");
-//        redisUtil.set("test", "value", 1000);
-//        resultVO.setResult(redisUtil.get("test"));
-        baseUserService.getCurrentUser();
         Map<String, Object> data = Maps.newHashMap();
         user.setPassword(null);
         data.put("userInfo", user);
-        data.put("menu", userMenuList);
-        data.put("permission", userPrivList);
         data.put("token", token);
+        resultVO.setMessage("登录成功");
         resultVO.setResult(data);
         return resultVO;
     }

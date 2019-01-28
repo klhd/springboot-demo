@@ -16,17 +16,6 @@ public class RedisUtil {
     public void setRedisTemplate(RedisTemplate<String, Object> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
-    //=============================common============================  
-
-    static Map<String, Object> cache = Maps.newHashMap();
-
-    public static void setValue(String key, Object value){
-        cache.put(key, value);
-    }
-    public static Object getValue(String key){
-        return cache.get(key);
-    }
-
 
     /**
      * 指定缓存失效时间
