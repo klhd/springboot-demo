@@ -15,7 +15,7 @@ Hello, welcome to my spring Boot!!!
 	<button onclick="login()">登录</button>
 </div>
 <div>
-	<a href="/swagger-ui.html">swagger-ui.html</a>
+	<a href="swagger-ui.html">swagger-ui.html</a>
 </div>
 <script>
     function login() {
@@ -25,7 +25,7 @@ Hello, welcome to my spring Boot!!!
     }
     function doLogin(callback) {
 
-        axios.post('/user/login', {
+        axios.post('/psi/user/login', {
             userAccount: document.getElementById('userAccount').value,
             password: document.getElementById('password').value
         }).then(callback);
@@ -35,7 +35,7 @@ Hello, welcome to my spring Boot!!!
     function initMenu(){
         var arr = ['花花公子', '绘声绘影', '相亲相爱', '滔滔不绝', '倾国倾城', '飘飘欲仙', '日日夜夜', '一生一世', '没完没了', '欣欣向荣', '好好先生', '难兄难弟', '美轮美奂', '再接再厉', '花花世界', '人来人往', '如火如荼', '绘声绘色', '桃之夭夭', '今生今世', '自由自在', '患得患失', '自怨自艾', '茕茕孑立', '逃之夭夭', '姗姗来迟', '孜孜不倦', '想入非非', '小心翼翼', '不卑不亢'];
         for(var n in arr){
-            axios.post('/menu/create', {
+            axios.post('/psi/menu/create', {
                 name: '菜单：' + arr[n]
             });
         }
@@ -48,14 +48,14 @@ Hello, welcome to my spring Boot!!!
             '山雨欲来风满楼', '枪林弹雨', '风华绝代', '名胜古迹'];
         arr = ['擎天柱', '空城计', '救世主', '丑八怪', '美人计', '里程碑', '败家子', '打擂台', '清一色', '守财奴', '破天荒', '莫须有', '急先锋', '吝啬鬼', '口头禅', '太上皇', '紧箍咒', '肉中刺', '铁公鸡', '母夜叉', '忘年交', '单相思', '清君侧', '跑龙套', '执牛耳', '笑面虎', '东道主', '试金石', '敲竹杠', '掉书袋', '一言堂', '替罪羊', '狗腿子', '下马威', '二流子', '一字师', '一窝蜂', '阿堵物', '势利眼', '跑江湖'];
         for(var n in arr){
-            axios.post('/role/create', {
+            axios.post('/psi/role/create', {
                 roleName: '角色：' + arr[n]
             });
         }
     }
 
     function setPri4Role(roldId){
-        axios.post('/role/getAllPrivilegeList').then(function(data){
+        axios.post('/psi/role/getAllPrivilegeList').then(function(data){
             data = data.data.result;
             var par = [];
             for(var n in data){
@@ -68,7 +68,7 @@ Hello, welcome to my spring Boot!!!
     function initUser(){
         var arr = ['刀白凤', '丁春秋', '马夫人', '马五德', '小翠', '于光豪', '巴天石','不平道人', '邓百川', '风波恶', '甘宝宝', '公冶乾', '木婉清', '少林老僧', '太皇太后', '天狼子', '天山童姥', '王语嫣', '乌老大', '无崖子', '云岛主', '云中鹤', '止清', '白世镜', '包不同', '本参', '本观', '本相', '本因', '出尘子', '冯阿三', '古笃诚', '过彦之', '兰剑', '平婆婆', '石清露', '石嫂', '司空玄', '司马林', '玄慈', '玄寂', '玄苦', '玄难', '玄生', '玄痛', '叶二娘', '左子穆', '华赫艮', '李春来', '李傀儡', '李秋水', '刘竹庄', '朴者和尚', '祁六三', '乔峰', '全冠清', '阮星竹', '西夏宫女', '许卓诚', '朱丹臣', '竹剑', '阿碧', '阿洪', '阿胜', '阿朱', '阿紫', '波罗星', '陈孤雁', '何望海', '鸠摩智', '来福儿', '孟师叔', '努儿海', '宋长老', '苏星河', '苏辙', '完颜阿古打', '吴长风', '吴光胜', '吴领军', '辛双清', '严妈妈', '余婆婆', '岳老三', '张全祥', '单伯山', '单季山', '单叔山', '单小山', '单正', '段延庆', '段誉', '段正淳', '段正明', '范禹', '范百龄', '范骅', '苟读', '郁光标', '卓不凡', '宗赞王子', '哈大霸', '姜师叔', '枯荣长老', '梦姑', '神山上人', '神音', '狮鼻子', '室里', '项长老', '姚伯当', '幽草', '赵钱孙', '赵洵', '哲罗星', '钟灵', '钟万仇', '高升泰', '龚光杰', '贾老者', '康广陵', '秦红棉', '容子矩', '桑土公', '唐光雄', '奚长老', '徐长老', '诸保昆', '崔百泉', '崔绿华', '符敏仪', '黄眉和尚', '菊剑', '聋哑婆婆', '梅剑', '萧远山', '虚竹', '游骥', '游驹', '游坦之', '程青霜', '傅思归', '葛光佩', '缘根', '智光大师', '鲍千灵', '褚万里', '瑞婆婆', '端木元', '赫连铁树', '黎夫人', '慕容博', '慕容复', '谭公', '谭婆', '谭青', '摘星子', '慧方', '慧观', '慧净', '慧真', '穆贵妃', '薛慕华', '和里布', '耶律洪基', '耶律莫哥', '耶律涅鲁古', '耶律重元', '易大彪'];
         for(var n in arr) {
-            axios.post('/user/create', {
+            axios.post('/psi/user/create', {
                 userAccount: 1001 + n * 1,
                 userName: arr[n],
                 password: '123456'

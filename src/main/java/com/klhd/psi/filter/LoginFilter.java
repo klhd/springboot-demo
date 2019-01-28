@@ -67,7 +67,7 @@ public class LoginFilter implements Filter {
             }
         }
         if(httpServletRequest.getHeader("accept").indexOf("text/html") != -1){
-            httpServletResponse.sendRedirect("/");
+            httpServletResponse.sendRedirect("/psi");
         }else {
             ResultVO res = new ResultVO();
             res.setCode(401);

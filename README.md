@@ -1,6 +1,8 @@
 # SpringBoot Demo
 ## Application为启动类
 
+访问地址是：http://localhost:8088/psi/index.html
+
 src目录介绍：
 
 annotation 自定义注解
