@@ -50,7 +50,6 @@ public class AnnotationScanner implements ApplicationListener<ApplicationReadyEv
             dataSource.setUsername(list.get(1));
             dataSource.setPassword(list.get(2));
         } catch (IOException e) {
-            e.printStackTrace();
             logger.error("数据库配置失败");
         }
 
@@ -94,13 +93,12 @@ public class AnnotationScanner implements ApplicationListener<ApplicationReadyEv
                     }
                 }
             }
-            Set<Map.Entry<String, PrivilegeVO>> entries2 = map.entrySet();
-            Iterator<Map.Entry<String, PrivilegeVO>> iterator2 = entries2.iterator();
-            while(iterator2.hasNext()){
-                Map.Entry<String, PrivilegeVO> next = iterator2.next();
-                privilegeDao.deleteByPrimaryKey(next.getValue().getId());
-                del ++;
-            }
+        }
+        Iterator<Map.Entry<String, PrivilegeVO>> iterator2 = map.entrySet().iterator();
+        while(iterator2.hasNext()){
+            Map.Entry<String, PrivilegeVO> next = iterator2.next();
+            privilegeDao.deleteByPrimaryKey(next.getValue().getId());
+            del ++;
         }
         logger.info("added:{}, updated: {}, deleted: {} ", add, update, del);
         logger.info("==== 服务启动完毕，运行环境：{} ====", profiles);

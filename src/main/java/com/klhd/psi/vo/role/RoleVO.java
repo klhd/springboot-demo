@@ -1,12 +1,17 @@
 package com.klhd.psi.vo.role;
 
+import com.klhd.psi.vo.privilege.PrivilegeVO;
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class RoleVO implements Serializable {
     private Integer id;
 
     private String roleName;
+
+    private List<PrivilegeVO> privilegeList;
 
     private Date lastUpdateDate;
 
@@ -34,6 +39,14 @@ public class RoleVO implements Serializable {
 
     public void setLastUpdateDate(Date lastUpdateDate) {
         this.lastUpdateDate = lastUpdateDate;
+    }
+
+    public List<PrivilegeVO> getPrivilegeList() {
+        return privilegeList;
+    }
+
+    public void setPrivilegeList(List<PrivilegeVO> privilegeList) {
+        this.privilegeList = privilegeList;
     }
 
     @Override

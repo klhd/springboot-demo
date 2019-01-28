@@ -1,10 +1,10 @@
-package com.klhd.psi.vo.dept;
+package com.klhd.psi.vo.org;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class UserDeptQuery {
+public class UserOrgQuery {
     protected String orderByClause;
 
     protected boolean distinct;
@@ -19,7 +19,7 @@ public class UserDeptQuery {
 
     protected String fields;
 
-    public UserDeptQuery() {
+    public UserOrgQuery() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -207,213 +207,213 @@ public class UserDeptQuery {
             return (Criteria) this;
         }
 
-        public Criteria andDeptCodeIsNull() {
-            addCriterion("dept_code is null");
+        public Criteria andOrgCodeIsNull() {
+            addCriterion("org_code is null");
             return (Criteria) this;
         }
 
-        public Criteria andDeptCodeIsNotNull() {
-            addCriterion("dept_code is not null");
+        public Criteria andOrgCodeIsNotNull() {
+            addCriterion("org_code is not null");
             return (Criteria) this;
         }
 
-        public Criteria andDeptCodeEqualTo(String value) {
-            addCriterion("dept_code =", value, "deptCode");
+        public Criteria andOrgCodeEqualTo(String value) {
+            addCriterion("org_code =", value, "orgCode");
             return (Criteria) this;
         }
 
-        public Criteria andDeptCodeNotEqualTo(String value) {
-            addCriterion("dept_code <>", value, "deptCode");
+        public Criteria andOrgCodeNotEqualTo(String value) {
+            addCriterion("org_code <>", value, "orgCode");
             return (Criteria) this;
         }
 
-        public Criteria andDeptCodeGreaterThan(String value) {
-            addCriterion("dept_code >", value, "deptCode");
+        public Criteria andOrgCodeGreaterThan(String value) {
+            addCriterion("org_code >", value, "orgCode");
             return (Criteria) this;
         }
 
-        public Criteria andDeptCodeGreaterThanOrEqualTo(String value) {
-            addCriterion("dept_code >=", value, "deptCode");
+        public Criteria andOrgCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("org_code >=", value, "orgCode");
             return (Criteria) this;
         }
 
-        public Criteria andDeptCodeLessThan(String value) {
-            addCriterion("dept_code <", value, "deptCode");
+        public Criteria andOrgCodeLessThan(String value) {
+            addCriterion("org_code <", value, "orgCode");
             return (Criteria) this;
         }
 
-        public Criteria andDeptCodeLessThanOrEqualTo(String value) {
-            addCriterion("dept_code <=", value, "deptCode");
+        public Criteria andOrgCodeLessThanOrEqualTo(String value) {
+            addCriterion("org_code <=", value, "orgCode");
             return (Criteria) this;
         }
 
-        public Criteria andDeptCodeLike(String value) {
-            addCriterion("dept_code like", value, "deptCode");
+        public Criteria andOrgCodeLike(String value) {
+            addCriterion("org_code like", value, "orgCode");
             return (Criteria) this;
         }
 
-        public Criteria andDeptCodeNotLike(String value) {
-            addCriterion("dept_code not like", value, "deptCode");
+        public Criteria andOrgCodeNotLike(String value) {
+            addCriterion("org_code not like", value, "orgCode");
             return (Criteria) this;
         }
 
-        public Criteria andDeptCodeIn(List<String> values) {
-            addCriterion("dept_code in", values, "deptCode");
+        public Criteria andOrgCodeIn(List<String> values) {
+            addCriterion("org_code in", values, "orgCode");
             return (Criteria) this;
         }
 
-        public Criteria andDeptCodeNotIn(List<String> values) {
-            addCriterion("dept_code not in", values, "deptCode");
+        public Criteria andOrgCodeNotIn(List<String> values) {
+            addCriterion("org_code not in", values, "orgCode");
             return (Criteria) this;
         }
 
-        public Criteria andDeptCodeBetween(String value1, String value2) {
-            addCriterion("dept_code between", value1, value2, "deptCode");
+        public Criteria andOrgCodeBetween(String value1, String value2) {
+            addCriterion("org_code between", value1, value2, "orgCode");
             return (Criteria) this;
         }
 
-        public Criteria andDeptCodeNotBetween(String value1, String value2) {
-            addCriterion("dept_code not between", value1, value2, "deptCode");
+        public Criteria andOrgCodeNotBetween(String value1, String value2) {
+            addCriterion("org_code not between", value1, value2, "orgCode");
             return (Criteria) this;
         }
 
-        public Criteria andDeptNameIsNull() {
-            addCriterion("dept_name is null");
+        public Criteria andOrgNameIsNull() {
+            addCriterion("org_name is null");
             return (Criteria) this;
         }
 
-        public Criteria andDeptNameIsNotNull() {
-            addCriterion("dept_name is not null");
+        public Criteria andOrgNameIsNotNull() {
+            addCriterion("org_name is not null");
             return (Criteria) this;
         }
 
-        public Criteria andDeptNameEqualTo(String value) {
-            addCriterion("dept_name =", value, "deptName");
+        public Criteria andOrgNameEqualTo(String value) {
+            addCriterion("org_name =", value, "orgName");
             return (Criteria) this;
         }
 
-        public Criteria andDeptNameNotEqualTo(String value) {
-            addCriterion("dept_name <>", value, "deptName");
+        public Criteria andOrgNameNotEqualTo(String value) {
+            addCriterion("org_name <>", value, "orgName");
             return (Criteria) this;
         }
 
-        public Criteria andDeptNameGreaterThan(String value) {
-            addCriterion("dept_name >", value, "deptName");
+        public Criteria andOrgNameGreaterThan(String value) {
+            addCriterion("org_name >", value, "orgName");
             return (Criteria) this;
         }
 
-        public Criteria andDeptNameGreaterThanOrEqualTo(String value) {
-            addCriterion("dept_name >=", value, "deptName");
+        public Criteria andOrgNameGreaterThanOrEqualTo(String value) {
+            addCriterion("org_name >=", value, "orgName");
             return (Criteria) this;
         }
 
-        public Criteria andDeptNameLessThan(String value) {
-            addCriterion("dept_name <", value, "deptName");
+        public Criteria andOrgNameLessThan(String value) {
+            addCriterion("org_name <", value, "orgName");
             return (Criteria) this;
         }
 
-        public Criteria andDeptNameLessThanOrEqualTo(String value) {
-            addCriterion("dept_name <=", value, "deptName");
+        public Criteria andOrgNameLessThanOrEqualTo(String value) {
+            addCriterion("org_name <=", value, "orgName");
             return (Criteria) this;
         }
 
-        public Criteria andDeptNameLike(String value) {
-            addCriterion("dept_name like", value, "deptName");
+        public Criteria andOrgNameLike(String value) {
+            addCriterion("org_name like", value, "orgName");
             return (Criteria) this;
         }
 
-        public Criteria andDeptNameNotLike(String value) {
-            addCriterion("dept_name not like", value, "deptName");
+        public Criteria andOrgNameNotLike(String value) {
+            addCriterion("org_name not like", value, "orgName");
             return (Criteria) this;
         }
 
-        public Criteria andDeptNameIn(List<String> values) {
-            addCriterion("dept_name in", values, "deptName");
+        public Criteria andOrgNameIn(List<String> values) {
+            addCriterion("org_name in", values, "orgName");
             return (Criteria) this;
         }
 
-        public Criteria andDeptNameNotIn(List<String> values) {
-            addCriterion("dept_name not in", values, "deptName");
+        public Criteria andOrgNameNotIn(List<String> values) {
+            addCriterion("org_name not in", values, "orgName");
             return (Criteria) this;
         }
 
-        public Criteria andDeptNameBetween(String value1, String value2) {
-            addCriterion("dept_name between", value1, value2, "deptName");
+        public Criteria andOrgNameBetween(String value1, String value2) {
+            addCriterion("org_name between", value1, value2, "orgName");
             return (Criteria) this;
         }
 
-        public Criteria andDeptNameNotBetween(String value1, String value2) {
-            addCriterion("dept_name not between", value1, value2, "deptName");
+        public Criteria andOrgNameNotBetween(String value1, String value2) {
+            addCriterion("org_name not between", value1, value2, "orgName");
             return (Criteria) this;
         }
 
-        public Criteria andDeptDescIsNull() {
-            addCriterion("dept_desc is null");
+        public Criteria andOrgLevelIsNull() {
+            addCriterion("org_level is null");
             return (Criteria) this;
         }
 
-        public Criteria andDeptDescIsNotNull() {
-            addCriterion("dept_desc is not null");
+        public Criteria andOrgLevelIsNotNull() {
+            addCriterion("org_level is not null");
             return (Criteria) this;
         }
 
-        public Criteria andDeptDescEqualTo(String value) {
-            addCriterion("dept_desc =", value, "deptDesc");
+        public Criteria andOrgLevelEqualTo(String value) {
+            addCriterion("org_level =", value, "orgLevel");
             return (Criteria) this;
         }
 
-        public Criteria andDeptDescNotEqualTo(String value) {
-            addCriterion("dept_desc <>", value, "deptDesc");
+        public Criteria andOrgLevelNotEqualTo(String value) {
+            addCriterion("org_level <>", value, "orgLevel");
             return (Criteria) this;
         }
 
-        public Criteria andDeptDescGreaterThan(String value) {
-            addCriterion("dept_desc >", value, "deptDesc");
+        public Criteria andOrgLevelGreaterThan(String value) {
+            addCriterion("org_level >", value, "orgLevel");
             return (Criteria) this;
         }
 
-        public Criteria andDeptDescGreaterThanOrEqualTo(String value) {
-            addCriterion("dept_desc >=", value, "deptDesc");
+        public Criteria andOrgLevelGreaterThanOrEqualTo(String value) {
+            addCriterion("org_level >=", value, "orgLevel");
             return (Criteria) this;
         }
 
-        public Criteria andDeptDescLessThan(String value) {
-            addCriterion("dept_desc <", value, "deptDesc");
+        public Criteria andOrgLevelLessThan(String value) {
+            addCriterion("org_level <", value, "orgLevel");
             return (Criteria) this;
         }
 
-        public Criteria andDeptDescLessThanOrEqualTo(String value) {
-            addCriterion("dept_desc <=", value, "deptDesc");
+        public Criteria andOrgLevelLessThanOrEqualTo(String value) {
+            addCriterion("org_level <=", value, "orgLevel");
             return (Criteria) this;
         }
 
-        public Criteria andDeptDescLike(String value) {
-            addCriterion("dept_desc like", value, "deptDesc");
+        public Criteria andOrgLevelLike(String value) {
+            addCriterion("org_level like", value, "orgLevel");
             return (Criteria) this;
         }
 
-        public Criteria andDeptDescNotLike(String value) {
-            addCriterion("dept_desc not like", value, "deptDesc");
+        public Criteria andOrgLevelNotLike(String value) {
+            addCriterion("org_level not like", value, "orgLevel");
             return (Criteria) this;
         }
 
-        public Criteria andDeptDescIn(List<String> values) {
-            addCriterion("dept_desc in", values, "deptDesc");
+        public Criteria andOrgLevelIn(List<String> values) {
+            addCriterion("org_level in", values, "orgLevel");
             return (Criteria) this;
         }
 
-        public Criteria andDeptDescNotIn(List<String> values) {
-            addCriterion("dept_desc not in", values, "deptDesc");
+        public Criteria andOrgLevelNotIn(List<String> values) {
+            addCriterion("org_level not in", values, "orgLevel");
             return (Criteria) this;
         }
 
-        public Criteria andDeptDescBetween(String value1, String value2) {
-            addCriterion("dept_desc between", value1, value2, "deptDesc");
+        public Criteria andOrgLevelBetween(String value1, String value2) {
+            addCriterion("org_level between", value1, value2, "orgLevel");
             return (Criteria) this;
         }
 
-        public Criteria andDeptDescNotBetween(String value1, String value2) {
-            addCriterion("dept_desc not between", value1, value2, "deptDesc");
+        public Criteria andOrgLevelNotBetween(String value1, String value2) {
+            addCriterion("org_level not between", value1, value2, "orgLevel");
             return (Criteria) this;
         }
 

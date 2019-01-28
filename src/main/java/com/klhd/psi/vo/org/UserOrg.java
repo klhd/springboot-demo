@@ -1,16 +1,16 @@
-package com.klhd.psi.vo.dept;
+package com.klhd.psi.vo.org;
 
 import java.io.Serializable;
 import java.util.Date;
 
-public class UserDept implements Serializable {
+public class UserOrg implements Serializable {
     private Integer id;
 
-    private String deptCode;
+    private String orgCode;
 
-    private String deptName;
+    private String orgName;
 
-    private String deptDesc;
+    private String orgLevel;
 
     private Integer parentId;
 
@@ -26,28 +26,28 @@ public class UserDept implements Serializable {
         this.id = id;
     }
 
-    public String getDeptCode() {
-        return deptCode;
+    public String getOrgCode() {
+        return orgCode;
     }
 
-    public void setDeptCode(String deptCode) {
-        this.deptCode = deptCode == null ? null : deptCode.trim();
+    public void setOrgCode(String orgCode) {
+        this.orgCode = orgCode == null ? null : orgCode.trim();
     }
 
-    public String getDeptName() {
-        return deptName;
+    public String getOrgName() {
+        return orgName;
     }
 
-    public void setDeptName(String deptName) {
-        this.deptName = deptName == null ? null : deptName.trim();
+    public void setOrgName(String orgName) {
+        this.orgName = orgName == null ? null : orgName.trim();
     }
 
-    public String getDeptDesc() {
-        return deptDesc;
+    public String getOrgLevel() {
+        return orgLevel;
     }
 
-    public void setDeptDesc(String deptDesc) {
-        this.deptDesc = deptDesc == null ? null : deptDesc.trim();
+    public void setOrgLevel(String orgLevel) {
+        this.orgLevel = orgLevel == null ? null : orgLevel.trim();
     }
 
     public Integer getParentId() {
@@ -73,9 +73,9 @@ public class UserDept implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", deptCode=").append(deptCode);
-        sb.append(", deptName=").append(deptName);
-        sb.append(", deptDesc=").append(deptDesc);
+        sb.append(", orgCode=").append(orgCode);
+        sb.append(", orgName=").append(orgName);
+        sb.append(", orgLevel=").append(orgLevel);
         sb.append(", parentId=").append(parentId);
         sb.append(", lastUpdateDate=").append(lastUpdateDate);
         sb.append(", serialVersionUID=").append(serialVersionUID);

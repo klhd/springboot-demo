@@ -6,6 +6,8 @@ import java.util.Date;
 public class UserVO implements Serializable {
     private Integer id;
 
+    private String userName;
+
     /**
      * 登陆账号
      */
@@ -16,19 +18,22 @@ public class UserVO implements Serializable {
      */
     private String password;
 
-    private String userName;
-
-    private String email;
-
     /**
      * 联系电话
      */
     private String telNum;
 
     /**
+     * 性别
+     */
+    private String sex;
+
+    private String email;
+
+    /**
      * 部门
      */
-    private Integer deptId;
+    private Integer orgId;
 
     /**
      * 岗位
@@ -77,6 +82,14 @@ public class UserVO implements Serializable {
         this.id = id;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName == null ? null : userName.trim();
+    }
+
     public String getUserAccount() {
         return userAccount;
     }
@@ -93,12 +106,20 @@ public class UserVO implements Serializable {
         this.password = password == null ? null : password.trim();
     }
 
-    public String getUserName() {
-        return userName;
+    public String getTelNum() {
+        return telNum;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName == null ? null : userName.trim();
+    public void setTelNum(String telNum) {
+        this.telNum = telNum == null ? null : telNum.trim();
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex == null ? null : sex.trim();
     }
 
     public String getEmail() {
@@ -109,20 +130,12 @@ public class UserVO implements Serializable {
         this.email = email == null ? null : email.trim();
     }
 
-    public String getTelNum() {
-        return telNum;
+    public Integer getOrgId() {
+        return orgId;
     }
 
-    public void setTelNum(String telNum) {
-        this.telNum = telNum == null ? null : telNum.trim();
-    }
-
-    public Integer getDeptId() {
-        return deptId;
-    }
-
-    public void setDeptId(Integer deptId) {
-        this.deptId = deptId;
+    public void setOrgId(Integer orgId) {
+        this.orgId = orgId;
     }
 
     public String getJobId() {
@@ -196,12 +209,13 @@ public class UserVO implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
+        sb.append(", userName=").append(userName);
         sb.append(", userAccount=").append(userAccount);
         sb.append(", password=").append(password);
-        sb.append(", userName=").append(userName);
-        sb.append(", email=").append(email);
         sb.append(", telNum=").append(telNum);
-        sb.append(", deptId=").append(deptId);
+        sb.append(", sex=").append(sex);
+        sb.append(", email=").append(email);
+        sb.append(", orgId=").append(orgId);
         sb.append(", jobId=").append(jobId);
         sb.append(", accountState=").append(accountState);
         sb.append(", userState=").append(userState);

@@ -6,7 +6,7 @@ package com.klhd.psi.vo;
 public class PageVO {
     private int pageSize=20;
     private int curPage=1;
-    private int totalRows;
+    private long totalRows;
     private int startRow;
 
     public static PageVO getInstance(){
@@ -46,11 +46,11 @@ public class PageVO {
         this.startRow = (this.curPage - 1) * this.pageSize;
     }
 
-    public int getTotalRows() {
+    public long getTotalRows() {
         return totalRows;
     }
 
-    public void setTotalRows(int totalRows) {
+    public void setTotalRows(long totalRows) {
         this.totalRows = totalRows;
     }
 }

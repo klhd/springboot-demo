@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.klhd.psi.dao.UserDeptDao">
-  <resultMap id="BaseResultMap" type="com.klhd.psi.vo.dept.UserDept">
+<mapper namespace="com.klhd.psi.dao.UserOrgDao">
+  <resultMap id="BaseResultMap" type="com.klhd.psi.vo.org.UserOrg">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="dept_code" jdbcType="VARCHAR" property="deptCode" />
-    <result column="dept_name" jdbcType="VARCHAR" property="deptName" />
-    <result column="dept_desc" jdbcType="VARCHAR" property="deptDesc" />
+    <result column="org_code" jdbcType="VARCHAR" property="orgCode" />
+    <result column="org_name" jdbcType="VARCHAR" property="orgName" />
+    <result column="org_level" jdbcType="VARCHAR" property="orgLevel" />
     <result column="parent_id" jdbcType="INTEGER" property="parentId" />
     <result column="last_update_date" jdbcType="TIMESTAMP" property="lastUpdateDate" />
   </resultMap>
@@ -69,19 +69,19 @@
   </sql>
   <sql id="Base_Column_List">
     <if test="fields == null">
-      id, dept_code, dept_name, dept_desc, parent_id, last_update_date
+      id, org_code, org_name, org_level, parent_id, last_update_date
     </if>
     <if test="fields != null">
       ${fields}
     </if>
   </sql>
-  <select id="selectByExample" parameterType="com.klhd.psi.vo.dept.UserDeptQuery" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.klhd.psi.vo.org.UserOrgQuery" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from t_dept
+    from t_org
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -94,42 +94,42 @@
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
-    id,dept_code,dept_name,dept_desc,parent_id,last_update_date
-    from t_dept
+    id,org_code,org_name,org_level,parent_id,last_update_date
+    from t_org
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from t_dept
+    delete from t_org
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.klhd.psi.vo.dept.UserDeptQuery">
-    delete from t_dept
+  <delete id="deleteByExample" parameterType="com.klhd.psi.vo.org.UserOrgQuery">
+    delete from t_org
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.klhd.psi.vo.dept.UserDept">
-    insert into t_dept (id, dept_code, dept_name,
-      dept_desc, parent_id, last_update_date
+  <insert id="insert" parameterType="com.klhd.psi.vo.org.UserOrg">
+    insert into t_org (id, org_code, org_name, 
+      org_level, parent_id, last_update_date
       )
-    values (#{id,jdbcType=INTEGER}, #{deptCode,jdbcType=VARCHAR}, #{deptName,jdbcType=VARCHAR}, 
-      #{deptDesc,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, #{lastUpdateDate,jdbcType=TIMESTAMP}
+    values (#{id,jdbcType=INTEGER}, #{orgCode,jdbcType=VARCHAR}, #{orgName,jdbcType=VARCHAR}, 
+      #{orgLevel,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER}, #{lastUpdateDate,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.klhd.psi.vo.dept.UserDept">
-    insert into t_dept
+  <insert id="insertSelective" parameterType="com.klhd.psi.vo.org.UserOrg">
+    insert into t_org
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="deptCode != null">
-        dept_code,
+      <if test="orgCode != null">
+        org_code,
       </if>
-      <if test="deptName != null">
-        dept_name,
+      <if test="orgName != null">
+        org_name,
       </if>
-      <if test="deptDesc != null">
-        dept_desc,
+      <if test="orgLevel != null">
+        org_level,
       </if>
       <if test="parentId != null">
         parent_id,
@@ -142,14 +142,14 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="deptCode != null">
-        #{deptCode,jdbcType=VARCHAR},
+      <if test="orgCode != null">
+        #{orgCode,jdbcType=VARCHAR},
       </if>
-      <if test="deptName != null">
-        #{deptName,jdbcType=VARCHAR},
+      <if test="orgName != null">
+        #{orgName,jdbcType=VARCHAR},
       </if>
-      <if test="deptDesc != null">
-        #{deptDesc,jdbcType=VARCHAR},
+      <if test="orgLevel != null">
+        #{orgLevel,jdbcType=VARCHAR},
       </if>
       <if test="parentId != null">
         #{parentId,jdbcType=INTEGER},
@@ -159,26 +159,26 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.klhd.psi.vo.dept.UserDeptQuery" resultType="java.lang.Long">
-    select count(*) from t_dept
+  <select id="countByExample" parameterType="com.klhd.psi.vo.org.UserOrgQuery" resultType="java.lang.Long">
+    select count(*) from t_org
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update t_dept
+    update t_org
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.deptCode != null">
-        dept_code = #{record.deptCode,jdbcType=VARCHAR},
+      <if test="record.orgCode != null">
+        org_code = #{record.orgCode,jdbcType=VARCHAR},
       </if>
-      <if test="record.deptName != null">
-        dept_name = #{record.deptName,jdbcType=VARCHAR},
+      <if test="record.orgName != null">
+        org_name = #{record.orgName,jdbcType=VARCHAR},
       </if>
-      <if test="record.deptDesc != null">
-        dept_desc = #{record.deptDesc,jdbcType=VARCHAR},
+      <if test="record.orgLevel != null">
+        org_level = #{record.orgLevel,jdbcType=VARCHAR},
       </if>
       <if test="record.parentId != null">
         parent_id = #{record.parentId,jdbcType=INTEGER},
@@ -192,28 +192,28 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update t_dept
+    update t_org
     set id = #{record.id,jdbcType=INTEGER},
-      dept_code = #{record.deptCode,jdbcType=VARCHAR},
-      dept_name = #{record.deptName,jdbcType=VARCHAR},
-      dept_desc = #{record.deptDesc,jdbcType=VARCHAR},
+      org_code = #{record.orgCode,jdbcType=VARCHAR},
+      org_name = #{record.orgName,jdbcType=VARCHAR},
+      org_level = #{record.orgLevel,jdbcType=VARCHAR},
       parent_id = #{record.parentId,jdbcType=INTEGER},
       last_update_date = #{record.lastUpdateDate,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.klhd.psi.vo.dept.UserDept">
-    update t_dept
+  <update id="updateByPrimaryKeySelective" parameterType="com.klhd.psi.vo.org.UserOrg">
+    update t_org
     <set>
-      <if test="deptCode != null">
-        dept_code = #{deptCode,jdbcType=VARCHAR},
+      <if test="orgCode != null">
+        org_code = #{orgCode,jdbcType=VARCHAR},
       </if>
-      <if test="deptName != null">
-        dept_name = #{deptName,jdbcType=VARCHAR},
+      <if test="orgName != null">
+        org_name = #{orgName,jdbcType=VARCHAR},
       </if>
-      <if test="deptDesc != null">
-        dept_desc = #{deptDesc,jdbcType=VARCHAR},
+      <if test="orgLevel != null">
+        org_level = #{orgLevel,jdbcType=VARCHAR},
       </if>
       <if test="parentId != null">
         parent_id = #{parentId,jdbcType=INTEGER},
@@ -224,11 +224,11 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.klhd.psi.vo.dept.UserDept">
-    update t_dept
-    set dept_code = #{deptCode,jdbcType=VARCHAR},
-      dept_name = #{deptName,jdbcType=VARCHAR},
-      dept_desc = #{deptDesc,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.klhd.psi.vo.org.UserOrg">
+    update t_org
+    set org_code = #{orgCode,jdbcType=VARCHAR},
+      org_name = #{orgName,jdbcType=VARCHAR},
+      org_level = #{orgLevel,jdbcType=VARCHAR},
       parent_id = #{parentId,jdbcType=INTEGER},
       last_update_date = #{lastUpdateDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
