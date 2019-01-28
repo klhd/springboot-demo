@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.klhd.psi.vo.role.RoleVO">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+    <result column="role_level" jdbcType="VARCHAR" property="roleLevel" />
     <result column="last_update_date" jdbcType="TIMESTAMP" property="lastUpdateDate" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -66,7 +67,7 @@
   </sql>
   <sql id="Base_Column_List">
     <if test="fields == null">
-      id, role_name, last_update_date
+      id, role_name, role_level, last_update_date
     </if>
     <if test="fields != null">
       ${fields}
@@ -91,7 +92,7 @@
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
-    id,role_name,last_update_date
+    id,role_name,role_level,last_update_date
     from t_role
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -106,10 +107,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.klhd.psi.vo.role.RoleVO">
-    insert into t_role (id, role_name, last_update_date
-      )
-    values (#{id,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR}, #{lastUpdateDate,jdbcType=TIMESTAMP}
-      )
+    insert into t_role (id, role_name, role_level, 
+      last_update_date)
+    values (#{id,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR}, #{roleLevel,jdbcType=VARCHAR}, 
+      #{lastUpdateDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.klhd.psi.vo.role.RoleVO">
     insert into t_role
@@ -119,6 +120,9 @@
       </if>
       <if test="roleName != null">
         role_name,
+      </if>
+      <if test="roleLevel != null">
+        role_level,
       </if>
       <if test="lastUpdateDate != null">
         last_update_date,
@@ -130,6 +134,9 @@
       </if>
       <if test="roleName != null">
         #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleLevel != null">
+        #{roleLevel,jdbcType=VARCHAR},
       </if>
       <if test="lastUpdateDate != null">
         #{lastUpdateDate,jdbcType=TIMESTAMP},
@@ -151,6 +158,9 @@
       <if test="record.roleName != null">
         role_name = #{record.roleName,jdbcType=VARCHAR},
       </if>
+      <if test="record.roleLevel != null">
+        role_level = #{record.roleLevel,jdbcType=VARCHAR},
+      </if>
       <if test="record.lastUpdateDate != null">
         last_update_date = #{record.lastUpdateDate,jdbcType=TIMESTAMP},
       </if>
@@ -163,6 +173,7 @@
     update t_role
     set id = #{record.id,jdbcType=INTEGER},
       role_name = #{record.roleName,jdbcType=VARCHAR},
+      role_level = #{record.roleLevel,jdbcType=VARCHAR},
       last_update_date = #{record.lastUpdateDate,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -174,6 +185,9 @@
       <if test="roleName != null">
         role_name = #{roleName,jdbcType=VARCHAR},
       </if>
+      <if test="roleLevel != null">
+        role_level = #{roleLevel,jdbcType=VARCHAR},
+      </if>
       <if test="lastUpdateDate != null">
         last_update_date = #{lastUpdateDate,jdbcType=TIMESTAMP},
       </if>
@@ -183,6 +197,7 @@
   <update id="updateByPrimaryKey" parameterType="com.klhd.psi.vo.role.RoleVO">
     update t_role
     set role_name = #{roleName,jdbcType=VARCHAR},
+      role_level = #{roleLevel,jdbcType=VARCHAR},
       last_update_date = #{lastUpdateDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>

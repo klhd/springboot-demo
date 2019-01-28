@@ -12,10 +12,7 @@ import com.klhd.psi.vo.PageVO;
 import com.klhd.psi.vo.ResultVO;
 import com.klhd.psi.vo.privilege.PrivilegeVO;
 import com.klhd.psi.vo.privilege.PrivilegeVOQuery;
-import com.klhd.psi.vo.role.RolePrivilegeVO;
-import com.klhd.psi.vo.role.RolePrivilegeVOQuery;
-import com.klhd.psi.vo.role.RoleVO;
-import com.klhd.psi.vo.role.RoleVOQuery;
+import com.klhd.psi.vo.role.*;
 import com.klhd.psi.vo.user.UserRoleVOQuery;
 import io.swagger.annotations.*;
 import org.apache.logging.log4j.util.Strings;
@@ -158,14 +155,16 @@ public class RoleService {
         query.createCriteria().andRoleIdEqualTo(roleVO.getId());
         List<RolePrivilegeVO> rolePrivilegeList = rolePrivilegeDao.selectByExample(query);
 
+        RoleExtVO roleExtVO = RoleExtVO.parse(roleVO);
+
         List<Integer> idList = rolePrivilegeList.stream().map(a -> a.getId()).collect(Collectors.toList());
         if(idList.size() > 0) {
             PrivilegeVOQuery pQuery = new PrivilegeVOQuery();
             pQuery.createCriteria().andIdIn(idList);
             List<PrivilegeVO> priList = privilegeDao.selectByExample(pQuery);
-            roleVO.setPrivilegeList(priList);
+            roleExtVO.setPrivilegeList(priList);
         }else{
-            roleVO.setPrivilegeList(Lists.newArrayList());
+            roleExtVO.setPrivilegeList(Lists.newArrayList());
         }
 
         resultVO.setResult(roleVO);

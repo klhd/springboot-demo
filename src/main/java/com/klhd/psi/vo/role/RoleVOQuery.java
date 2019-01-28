@@ -277,6 +277,76 @@ public class RoleVOQuery {
             return (Criteria) this;
         }
 
+        public Criteria andRoleLevelIsNull() {
+            addCriterion("role_level is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleLevelIsNotNull() {
+            addCriterion("role_level is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleLevelEqualTo(String value) {
+            addCriterion("role_level =", value, "roleLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleLevelNotEqualTo(String value) {
+            addCriterion("role_level <>", value, "roleLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleLevelGreaterThan(String value) {
+            addCriterion("role_level >", value, "roleLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleLevelGreaterThanOrEqualTo(String value) {
+            addCriterion("role_level >=", value, "roleLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleLevelLessThan(String value) {
+            addCriterion("role_level <", value, "roleLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleLevelLessThanOrEqualTo(String value) {
+            addCriterion("role_level <=", value, "roleLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleLevelLike(String value) {
+            addCriterion("role_level like", value, "roleLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleLevelNotLike(String value) {
+            addCriterion("role_level not like", value, "roleLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleLevelIn(List<String> values) {
+            addCriterion("role_level in", values, "roleLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleLevelNotIn(List<String> values) {
+            addCriterion("role_level not in", values, "roleLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleLevelBetween(String value1, String value2) {
+            addCriterion("role_level between", value1, value2, "roleLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andRoleLevelNotBetween(String value1, String value2) {
+            addCriterion("role_level not between", value1, value2, "roleLevel");
+            return (Criteria) this;
+        }
+
         public Criteria andLastUpdateDateIsNull() {
             addCriterion("last_update_date is null");
             return (Criteria) this;

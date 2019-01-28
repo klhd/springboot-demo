@@ -132,7 +132,9 @@ public class UserOrgService {
         UserOrgQuery query = new UserOrgQuery();
         query.createCriteria().andParentIdEqualTo(userOrg.getId());
         List<UserOrg> userOrgs = userOrgDao.selectByExample(query);
-        UserOrgExt userOrgExt = (UserOrgExt) userOrg;
+
+        UserOrgExt userOrgExt = UserOrgExt.parse(userOrg);
+
         if(userOrgs.size() > 0) {
             userOrgExt.setChildren(userOrgs);
         }else{
